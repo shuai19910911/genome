@@ -12,6 +12,7 @@ import csv
 import gzip
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -96,6 +97,14 @@ def basename_from_url(url: str) -> str:
     return Path(urllib.parse.urlparse(url).path).name
 
 
+def downloader_env() -> dict[str, str]:
+    env = dict(os.environ)
+    for key in list(env):
+        if key.lower() in {"http_proxy", "https_proxy", "ftp_proxy", "all_proxy", "no_proxy"}:
+            env.pop(key, None)
+    return env
+
+
 def annotation_urls(row: dict[str, str]) -> list[tuple[str, str]]:
     urls: list[tuple[str, str]] = []
     if row.get("gff3_url"):
@@ -127,7 +136,7 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 str(int(sleep_seconds)),
                 "--timeout=120",
                 "--connect-timeout=60",
-                "--lowest-speed-limit=10K",
+                "--lowest-speed-limit=1K",
                 "--max-connection-per-server=1",
                 "--split=1",
                 "--allow-overwrite=true",
@@ -139,7 +148,7 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 url,
             ]
             try:
-                subprocess.run(cmd, check=True)
+                subprocess.run(cmd, check=True, env=downloader_env())
                 tmp_path.replace(out_path)
                 return
             except subprocess.CalledProcessError as exc:
@@ -167,7 +176,7 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 "--retry-delay",
                 str(int(sleep_seconds)),
                 "--speed-limit",
-                "10240",
+                "1024",
                 "--speed-time",
                 "120",
                 "-C",
@@ -177,7 +186,7 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 url,
             ]
             try:
-                subprocess.run(cmd, check=True)
+                subprocess.run(cmd, check=True, env=downloader_env())
                 tmp_path.replace(out_path)
                 return
             except subprocess.CalledProcessError as exc:
