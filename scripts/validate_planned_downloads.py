@@ -73,7 +73,12 @@ def positive_int(value: str) -> bool:
         return False
 
 
-def validate_rows(rows: list[dict[str, str]]) -> list[str]:
+def valid_annotation_format(value: str) -> bool:
+    formats = [item for item in value.split(";") if item]
+    return bool(formats) and all(item in ANNOTATION_FORMATS for item in formats)
+
+
+def validate_rows(rows: list[dict[str, str]], allow_unknown_size: bool = False) -> list[str]:
     problems: list[str] = []
     planned = [row for row in rows if row.get("status") == "planned"]
     dir_counts = Counter(species_dir_name(row) for row in planned)
@@ -96,15 +101,15 @@ def validate_rows(rows: list[dict[str, str]]) -> list[str]:
             problems.append(f"line_{index}\t{species}\tmissing_genome_url")
         if not annotation_url:
             problems.append(f"line_{index}\t{species}\tmissing_annotation_url")
-        if annotation_format not in ANNOTATION_FORMATS:
+        if not valid_annotation_format(annotation_format):
             problems.append(f"line_{index}\t{species}\tinvalid_annotation_format\t{annotation_format}")
         if genome_url and not url_basename(genome_url).endswith(GENOME_SUFFIXES):
             problems.append(f"line_{index}\t{species}\tunexpected_genome_suffix\t{url_basename(genome_url)}")
         if annotation_url and not url_basename(annotation_url).endswith(ANNOTATION_SUFFIXES):
             problems.append(f"line_{index}\t{species}\tunexpected_annotation_suffix\t{url_basename(annotation_url)}")
-        if not positive_int(row.get("genome_size_bytes", "")):
+        if not allow_unknown_size and not positive_int(row.get("genome_size_bytes", "")):
             problems.append(f"line_{index}\t{species}\tmissing_or_nonpositive_genome_size")
-        if not positive_int(row.get("annotation_size_bytes", "")):
+        if not allow_unknown_size and not positive_int(row.get("annotation_size_bytes", "")):
             problems.append(f"line_{index}\t{species}\tmissing_or_nonpositive_annotation_size")
 
     return problems
@@ -113,13 +118,14 @@ def validate_rows(rows: list[dict[str, str]]) -> list[str]:
 def parse_args(argv: list[str]) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, default=Path("planned_downloads.tsv"))
+    parser.add_argument("--allow-unknown-size", action="store_true", help="允许快速候选清单中的大小字段为空")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     rows = read_manifest(args.manifest)
-    problems = validate_rows(rows)
+    problems = validate_rows(rows, allow_unknown_size=args.allow_unknown_size)
     if problems:
         print("Manifest validation failed:", file=sys.stderr)
         for problem in problems:

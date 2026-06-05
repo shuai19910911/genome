@@ -48,8 +48,12 @@ FINAL_MANIFEST_COLUMNS = [
     "species_dir",
     "genome_path",
     "annotation_path",
+    "gff3_path",
+    "gtf_path",
     "genome_sha256",
     "annotation_sha256",
+    "gff3_sha256",
+    "gtf_sha256",
     "download_date",
     "validation_status",
 ]
@@ -89,6 +93,23 @@ def species_dir_name(row: dict[str, str]) -> str:
 
 def basename_from_url(url: str) -> str:
     return Path(urllib.parse.urlparse(url).path).name
+
+
+def annotation_urls(row: dict[str, str]) -> list[tuple[str, str]]:
+    urls: list[tuple[str, str]] = []
+    if row.get("gff3_url"):
+        urls.append(("gff3", row["gff3_url"]))
+    if row.get("gtf_url"):
+        urls.append(("gtf", row["gtf_url"]))
+    if not urls and row.get("annotation_url"):
+        urls.append(("annotation", row["annotation_url"]))
+    seen: set[str] = set()
+    unique: list[tuple[str, str]] = []
+    for label, url in urls:
+        if url not in seen:
+            unique.append((label, url))
+            seen.add(url)
+    return unique
 
 
 def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -> None:
@@ -274,7 +295,10 @@ def process_row(
 ) -> dict[str, str]:
     species_dir = output_dir / species_dir_name(row)
     genome_path = species_dir / "genome" / basename_from_url(row["genome_url"])
-    annotation_path = species_dir / "annotation" / basename_from_url(row["annotation_url"])
+    annotations = annotation_urls(row)
+    annotation_path = species_dir / "annotation" / basename_from_url(annotations[0][1])
+    gff3_path = species_dir / "annotation" / basename_from_url(row.get("gff3_url", "")) if row.get("gff3_url") else Path("")
+    gtf_path = species_dir / "annotation" / basename_from_url(row.get("gtf_url", "")) if row.get("gtf_url") else Path("")
     download_date = datetime.now(timezone.utc).date().isoformat()
 
     result = {column: row.get(column, "") for column in REQUIRED_COLUMNS}
@@ -283,8 +307,12 @@ def process_row(
             "species_dir": str(species_dir),
             "genome_path": str(genome_path),
             "annotation_path": str(annotation_path),
+            "gff3_path": str(gff3_path),
+            "gtf_path": str(gtf_path),
             "genome_sha256": "",
             "annotation_sha256": "",
+            "gff3_sha256": "",
+            "gtf_sha256": "",
             "download_date": download_date,
             "validation_status": "dry_run",
         }
@@ -304,16 +332,22 @@ def process_row(
 
     if not genome_path.exists():
         download_url(row["genome_url"], genome_path, retries=retries, sleep_seconds=sleep_seconds)
-    if not annotation_path.exists():
-        download_url(row["annotation_url"], annotation_path, retries=retries, sleep_seconds=sleep_seconds)
+    annotation_paths: dict[str, Path] = {}
+    for label, url in annotations:
+        path = species_dir / "annotation" / basename_from_url(url)
+        annotation_paths[label] = path
+        if not path.exists():
+            download_url(url, path, retries=retries, sleep_seconds=sleep_seconds)
 
     genome_sha256 = sha256_file(genome_path)
     annotation_sha256 = sha256_file(annotation_path)
+    gff3_sha256 = sha256_file(annotation_paths["gff3"]) if "gff3" in annotation_paths else ""
+    gtf_sha256 = sha256_file(annotation_paths["gtf"]) if "gtf" in annotation_paths else ""
     sha_path = species_dir / "checksums" / "sha256sums.txt"
-    sha_path.write_text(
-        f"{genome_sha256}  {genome_path.relative_to(species_dir)}\n"
-        f"{annotation_sha256}  {annotation_path.relative_to(species_dir)}\n"
-    )
+    checksum_lines = [f"{genome_sha256}  {genome_path.relative_to(species_dir)}"]
+    for path in annotation_paths.values():
+        checksum_lines.append(f"{sha256_file(path)}  {path.relative_to(species_dir)}")
+    sha_path.write_text("\n".join(checksum_lines) + "\n")
 
     validation_status = validate_downloads(genome_path, annotation_path)
     write_readme(
@@ -340,6 +374,8 @@ def process_row(
         {
             "genome_sha256": genome_sha256,
             "annotation_sha256": annotation_sha256,
+            "gff3_sha256": gff3_sha256,
+            "gtf_sha256": gtf_sha256,
             "validation_status": validation_status,
         }
     )
