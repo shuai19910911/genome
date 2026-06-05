@@ -122,6 +122,12 @@ def annotation_urls(row: dict[str, str]) -> list[tuple[str, str]]:
     return unique
 
 
+def is_non_retriable_downloader_error(exc: subprocess.CalledProcessError) -> bool:
+    # aria2 exit status 3 means the resource was not found on the server.
+    # Retrying a missing NCBI GFF/GTF URL only wastes the download window.
+    return exc.returncode == 3
+
+
 def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
@@ -154,6 +160,8 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 return
             except subprocess.CalledProcessError as exc:
                 last_error = exc
+                if is_non_retriable_downloader_error(exc):
+                    raise RuntimeError(f"non-retriable download failure: {url}") from exc
                 if attempt == retries:
                     break
                 print(
@@ -188,6 +196,8 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 return
             except subprocess.CalledProcessError as exc:
                 last_error = exc
+                if is_non_retriable_downloader_error(exc):
+                    raise RuntimeError(f"non-retriable download failure: {url}") from exc
                 if attempt == retries:
                     break
                 print(
