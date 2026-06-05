@@ -1,0 +1,32 @@
+species	common_name	scope_group	include	notes
+Oryza sativa	rice	strict_crop	yes	major cereal crop
+Zea mays	maize	strict_crop	yes	major cereal crop
+Triticum aestivum	bread wheat	strict_crop	yes	large genome; expect high storage cost
+Glycine max	soybean	strict_crop	yes	major legume crop
+Hordeum vulgare	barley	strict_crop	yes	major cereal crop
+Sorghum bicolor	sorghum	strict_crop	yes	major cereal crop
+Setaria italica	foxtail millet	strict_crop	yes	millet crop and model grass
+Brassica napus	rapeseed	strict_crop	yes	oilseed crop
+Brassica rapa	turnip field mustard	strict_crop	yes	vegetable and oilseed crop
+Brassica oleracea	cabbage	strict_crop	yes	vegetable crop
+Gossypium hirsutum	upland cotton	strict_crop	yes	fiber crop
+Solanum lycopersicum	tomato	strict_crop	yes	vegetable crop
+Solanum tuberosum	potato	strict_crop	yes	tuber crop
+Manihot esculenta	cassava	strict_crop	yes	root crop
+Ipomoea batatas	sweet potato	strict_crop	yes	root crop
+Beta vulgaris	sugar beet	strict_crop	yes	sugar crop
+Saccharum spontaneum	wild sugarcane	broader_cultivated	review	sugarcane relative; include if broader scope is approved
+Musa acuminata	banana	broader_cultivated	review	fruit crop
+Vitis vinifera	grape	broader_cultivated	review	fruit crop
+Malus domestica	apple	broader_cultivated	review	fruit crop
+Prunus persica	peach	broader_cultivated	review	fruit crop
+Cucumis sativus	cucumber	broader_cultivated	review	vegetable crop
+Cucumis melo	melon	broader_cultivated	review	fruit/vegetable crop
+Citrullus lanatus	watermelon	broader_cultivated	review	fruit crop
+Phaseolus vulgaris	common bean	broader_cultivated	review	legume crop
+Vigna radiata	mung bean	broader_cultivated	review	legume crop
+Cicer arietinum	chickpea	broader_cultivated	review	legume crop
+Arachis hypogaea	peanut	broader_cultivated	review	oilseed legume crop
+Helianthus annuus	sunflower	broader_cultivated	review	oilseed crop
+Lactuca sativa	lettuce	broader_cultivated	review	vegetable crop
+Daucus carota	carrot	broader_cultivated	review	vegetable crop
