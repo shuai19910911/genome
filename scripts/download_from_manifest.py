@@ -100,7 +100,7 @@ def basename_from_url(url: str) -> str:
 def downloader_env() -> dict[str, str]:
     env = dict(os.environ)
     for key in list(env):
-        if key.lower() in {"all_proxy", "no_proxy"}:
+        if key.lower() in {"http_proxy", "https_proxy", "ftp_proxy", "all_proxy", "no_proxy"}:
             env.pop(key, None)
     return env
 
@@ -136,8 +136,8 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
                 str(int(sleep_seconds)),
                 "--timeout=120",
                 "--connect-timeout=60",
-                "--max-connection-per-server=4",
-                "--split=4",
+                "--max-connection-per-server=1",
+                "--split=1",
                 "--min-split-size=8M",
                 "--file-allocation=none",
                 "--allow-overwrite=true",
