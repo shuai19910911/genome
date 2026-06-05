@@ -382,6 +382,18 @@ def process_row(
     return result
 
 
+def row_completed(row: dict[str, str], output_dir: Path) -> bool:
+    species_dir = output_dir / species_dir_name(row)
+    genome_path = species_dir / "genome" / basename_from_url(row["genome_url"])
+    if not genome_path.exists() or genome_path.stat().st_size == 0:
+        return False
+    for _, url in annotation_urls(row):
+        path = species_dir / "annotation" / basename_from_url(url)
+        if not path.exists() or path.stat().st_size == 0:
+            return False
+    return (species_dir / "README.md").exists() and (species_dir / "README.zh.md").exists()
+
+
 def write_final_manifest(rows: list[dict[str, str]], path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="") as handle:
@@ -407,15 +419,21 @@ def parse_args(argv: list[str]) -> argparse.Namespace:
     parser.add_argument("--execute", action="store_true", help="download files and write species directories")
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--sleep-seconds", type=float, default=5.0)
+    parser.add_argument("--limit", type=int, default=0, help="最多处理多少个 planned 行；0 表示不限制")
+    parser.add_argument("--skip-completed", action="store_true", help="跳过本地文件和 README 已存在的行")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv or sys.argv[1:])
     rows = [row for row in read_manifest(args.manifest) if row.get("status") == "planned"]
+    if args.skip_completed:
+        rows = [row for row in rows if not row_completed(row, args.output_dir)]
+    if args.limit > 0:
+        rows = rows[: args.limit]
     results: list[dict[str, str]] = []
     failures: list[dict[str, str]] = []
-    for row in rows:
+    for index, row in enumerate(rows, start=1):
         try:
             results.append(
                 process_row(
@@ -440,6 +458,10 @@ def main(argv: list[str] | None = None) -> int:
                 }
             )
             print(f"FAILED {row.get('species', '')}: {exc}", file=sys.stderr)
+        if args.execute:
+            write_final_manifest(results, args.final_manifest)
+            write_failed_downloads(failures, args.failed_downloads)
+            print(f"Progress: {index}/{len(rows)} rows processed.", flush=True)
     if args.execute:
         write_final_manifest(results, args.final_manifest)
         write_failed_downloads(failures, args.failed_downloads)

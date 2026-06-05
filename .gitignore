@@ -1,3 +1,24 @@
 __pycache__/
 *.py[cod]
 *.part
+
+# 下载出来的数据文件不进 GitHub
+*_GCA_*/
+*_GCF_*/
+*.fa
+*.fa.gz
+*.fasta
+*.fasta.gz
+*.fna
+*.fna.gz
+*.gff
+*.gff.gz
+*.gff3
+*.gff3.gz
+*.gtf
+*.gtf.gz
+
+# 下载运行产物保留本地，不推送大批状态文件
+download_manifest.tsv
+failed_downloads.tsv
+download.log
