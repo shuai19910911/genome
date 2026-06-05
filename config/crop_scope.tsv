@@ -15,18 +15,18 @@ Solanum tuberosum	potato	strict_crop	yes	tuber crop
 Manihot esculenta	cassava	strict_crop	yes	root crop
 Ipomoea batatas	sweet potato	strict_crop	yes	root crop
 Beta vulgaris	sugar beet	strict_crop	yes	sugar crop
-Saccharum spontaneum	wild sugarcane	broader_cultivated	review	sugarcane relative; include if broader scope is approved
-Musa acuminata	banana	broader_cultivated	review	fruit crop
-Vitis vinifera	grape	broader_cultivated	review	fruit crop
-Malus domestica	apple	broader_cultivated	review	fruit crop
-Prunus persica	peach	broader_cultivated	review	fruit crop
-Cucumis sativus	cucumber	broader_cultivated	review	vegetable crop
-Cucumis melo	melon	broader_cultivated	review	fruit/vegetable crop
-Citrullus lanatus	watermelon	broader_cultivated	review	fruit crop
-Phaseolus vulgaris	common bean	broader_cultivated	review	legume crop
-Vigna radiata	mung bean	broader_cultivated	review	legume crop
-Cicer arietinum	chickpea	broader_cultivated	review	legume crop
-Arachis hypogaea	peanut	broader_cultivated	review	oilseed legume crop
-Helianthus annuus	sunflower	broader_cultivated	review	oilseed crop
-Lactuca sativa	lettuce	broader_cultivated	review	vegetable crop
-Daucus carota	carrot	broader_cultivated	review	vegetable crop
+Saccharum spontaneum	wild sugarcane	broader_cultivated	yes	sugarcane relative; broader cultivated scope approved
+Musa acuminata	banana	broader_cultivated	yes	fruit crop
+Vitis vinifera	grape	broader_cultivated	yes	fruit crop
+Malus domestica	apple	broader_cultivated	yes	fruit crop
+Prunus persica	peach	broader_cultivated	yes	fruit crop
+Cucumis sativus	cucumber	broader_cultivated	yes	vegetable crop
+Cucumis melo	melon	broader_cultivated	yes	fruit/vegetable crop
+Citrullus lanatus	watermelon	broader_cultivated	yes	fruit crop
+Phaseolus vulgaris	common bean	broader_cultivated	yes	legume crop
+Vigna radiata	mung bean	broader_cultivated	yes	legume crop
+Cicer arietinum	chickpea	broader_cultivated	yes	legume crop
+Arachis hypogaea	peanut	broader_cultivated	yes	oilseed legume crop
+Helianthus annuus	sunflower	broader_cultivated	yes	oilseed crop
+Lactuca sativa	lettuce	broader_cultivated	yes	vegetable crop
+Daucus carota	carrot	broader_cultivated	yes	vegetable crop

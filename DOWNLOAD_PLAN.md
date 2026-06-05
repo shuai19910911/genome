@@ -13,33 +13,33 @@
 1. Ensembl Plants
 2. NCBI Datasets / RefSeq
 3. NCBI GenBank，仅在 RefSeq 不可用时使用
-4. 其他作物专项数据库，仅在明确批准后使用
+4. 其他作物专项数据库，当前已明确批准使用
 
-Phytozome 很有价值，但部分下载需要登录或受许可限制，因此不作为默认来源。
+来源策略记录在 `config/source_policy.tsv`。Phytozome 很有价值，但部分下载需要登录或受许可限制；当前阶段只记录可用性和限制，不下载，后续再决定是否使用。
 
 ## 执行前需要确认的范围
 
 生成下载清单前，需要先确认以下规则：
 
-1. 作物范围：
-   - 严格常见作物，例如水稻、玉米、小麦、大豆、棉花、番茄、马铃薯、油菜、大麦、高粱、谷子、木薯、甘薯、甜菜等。
-   - 扩展栽培植物，包括果树、蔬菜、牧草、药用植物和园艺植物。
-   - 所有具备可用 GFF/GTF 注释的植物 assembly，不再严格限制是否为作物。
+1. 作物范围：已确认使用扩展栽培植物。
+   - 不只限于少数主粮作物。
+   - 果树、蔬菜、豆类、油料、牧草、药用植物和园艺植物都可以纳入候选。
+   - 不是所有野生植物都自动纳入，重点仍是栽培作物及其重要近缘材料。
 
-2. assembly 粒度：
-   - 每个物种只保留一个代表 assembly。
-   - 每个 assembly accession 或 cultivar 单独建目录。
-   - 对主要作物保留多个重要 cultivar 或版本。
+2. assembly 粒度：已确认尽量收集当前作物所有已有基因组。
+   - 同一作物的不同 cultivar 或不同 assembly accession 都应该进入候选。
+   - 例如大豆中，`Zhonghuang13` 和 `Heihe43` 都应该下载。
+   - 如果同一个 cultivar 或同一个 assembly 有重复来源，只保留更合适的一份。
+   - 去重时看来源可靠性、版本新旧、注释是否完整、是否同时有 GFF3/GTF。
 
 3. 多来源冲突规则：
    - 如果物种存在于 Ensembl Plants，优先使用 Ensembl Plants。
    - 如果存在高质量 RefSeq assembly，优先使用 NCBI RefSeq。
    - 如果 Ensembl 与 NCBI 版本差异较大，可同时保留两个版本。
 
-4. 注释格式：
-   - 优先 GFF3。
-   - 如果没有 GFF3，再使用 GTF。
-   - 如果 GFF3 和 GTF 都有，是否都下载需要单独确认。
+4. 注释格式：已确认尽量同时下载 GFF3 和 GTF。
+   - 如果两者都有，候选清单应同时记录。
+   - 如果只有一种，也可以进入候选，但 README 中要写清楚。
 
 5. 压缩格式：
    - 默认保留来源压缩文件 `.gz`。
@@ -54,18 +54,19 @@ Phytozome 很有价值，但部分下载需要登录或受许可限制，因此�
 当前辅助文件：
 
 - `config/crop_scope.tsv`：可编辑的作物范围表。
+- `config/source_policy.tsv`：来源使用策略，记录哪些来源现在使用、哪些暂缓。
 - `scripts/build_planned_downloads.py`：候选清单生成脚本。它检查来源目录并写出 `planned_downloads.tsv`，不下载基因组或注释文件本体。
 - `scripts/summarize_planned_downloads.py`：只读汇总脚本。它统计 planned/skipped 行数、来源分布、注释格式、跳过原因和预计下载大小。
 - `scripts/validate_planned_downloads.py`：只读预检脚本。它检查必需字段、重复输出目录、文件后缀、注释格式和非正数大小字段。
 - `scripts/download_from_manifest.py`：基于已批准清单的执行脚本。默认 dry-run；只有传入 `--execute` 才会下载文件和创建物种目录。
 
-严格作物范围的清单生成命令：
+当前已确认扩展栽培植物范围，`config/crop_scope.tsv` 中应下载的物种标记为 `include=yes`。候选清单生成命令：
 
 ```bash
 python3 scripts/build_planned_downloads.py --crop-scope config/crop_scope.tsv --out planned_downloads.tsv
 ```
 
-包含 `include=review` 扩展作物的清单生成命令：
+如果后续临时加入待审阅物种，可用 `--include-review` 同时纳入 `include=review` 行：
 
 ```bash
 python3 scripts/build_planned_downloads.py --include-review --out planned_downloads.tsv
@@ -232,7 +233,8 @@ python3 -B -m py_compile scripts/build_planned_downloads.py scripts/summarize_pl
 9. 校验 checksum 和压缩文件完整性。
 10. 为每个物种生成中文 `README.md` 和 `README.zh.md`。
 11. 生成最终 `download_manifest.tsv` 和失败报告。
+12. 每完成一个阶段，都更新 `docs/` 下的进度文档并推送到 GitHub。
 
 ## 当前状态
 
-目前仍处于规划和脚本准备阶段。尚未生成真实候选清单，尚未下载 genome 或 annotation 文件。
+目前仍处于规划和脚本准备阶段。已确认扩展栽培植物、所有可用 assembly/cultivar、GFF3/GTF 尽量都下载、专项数据库可用、Phytozome 暂缓。尚未生成真实候选清单，尚未下载 genome 或 annotation 文件。

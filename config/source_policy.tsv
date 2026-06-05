@@ -1,0 +1,6 @@
+source	status	use_now	notes
+Ensembl Plants	approved	yes	优先使用，适合生成稳定的公开候选清单
+NCBI RefSeq	approved	yes	优先使用 curated assembly 和注释
+NCBI GenBank	approved	yes	RefSeq 不覆盖或作物多 cultivar/多 accession 时使用
+作物专项数据库	approved	yes	已获批准；后续按物种补充 ZEAMAP、SoyBase、Wheat 等专项来源
+Phytozome	deferred	no	先记录可用性和限制，不下载；后续再决定是否使用
