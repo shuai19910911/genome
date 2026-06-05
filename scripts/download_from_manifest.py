@@ -14,6 +14,7 @@ import hashlib
 import json
 import re
 import shutil
+import subprocess
 import sys
 import time
 import urllib.error
@@ -115,6 +116,29 @@ def annotation_urls(row: dict[str, str]) -> list[tuple[str, str]]:
 def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
+    if shutil.which("curl"):
+        cmd = [
+            "curl",
+            "-L",
+            "--fail",
+            "--retry",
+            str(retries),
+            "--retry-delay",
+            str(int(sleep_seconds)),
+            "--speed-limit",
+            "10240",
+            "--speed-time",
+            "120",
+            "-C",
+            "-",
+            "-o",
+            str(tmp_path),
+            url,
+        ]
+        subprocess.run(cmd, check=True)
+        tmp_path.replace(out_path)
+        return
+
     headers = {"User-Agent": "crop-genome-downloader/0.1"}
     for attempt in range(1, retries + 1):
         try:

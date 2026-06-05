@@ -22,3 +22,4 @@ __pycache__/
 download_manifest.tsv
 failed_downloads.tsv
 download.log
+download.pid
