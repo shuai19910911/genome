@@ -116,6 +116,45 @@ def annotation_urls(row: dict[str, str]) -> list[tuple[str, str]]:
 def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
+    if shutil.which("aria2c"):
+        last_error: subprocess.CalledProcessError | None = None
+        for attempt in range(1, retries + 1):
+            cmd = [
+                "aria2c",
+                "--continue=true",
+                "--max-tries=2",
+                "--retry-wait",
+                str(int(sleep_seconds)),
+                "--timeout=120",
+                "--connect-timeout=60",
+                "--lowest-speed-limit=10K",
+                "--max-connection-per-server=1",
+                "--split=1",
+                "--allow-overwrite=true",
+                "--auto-file-renaming=false",
+                "--dir",
+                str(tmp_path.parent),
+                "--out",
+                tmp_path.name,
+                url,
+            ]
+            try:
+                subprocess.run(cmd, check=True)
+                tmp_path.replace(out_path)
+                return
+            except subprocess.CalledProcessError as exc:
+                last_error = exc
+                if attempt == retries:
+                    break
+                print(
+                    f"aria2c failed for {url} on attempt {attempt}/{retries}; "
+                    f"will resume after {sleep_seconds * attempt:.0f}s",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                time.sleep(sleep_seconds * attempt)
+        raise RuntimeError(f"aria2c download failed after {retries} attempts: {last_error}") from last_error
+
     if shutil.which("curl"):
         last_error: subprocess.CalledProcessError | None = None
         for attempt in range(1, retries + 1):
