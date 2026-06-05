@@ -169,39 +169,39 @@ def write_readme(
     readme = species_dir / "README.md"
     content = f"""# {row['species']}
 
-## Source
+## 来源
 
-- Scientific name: {row['species']}
-- Common name: {row.get('common_name', '')}
+- 学名: {row['species']}
+- 常用名: {row.get('common_name', '')}
 - Taxonomy ID: {row.get('taxon_id', '')}
-- Assembly accession: {row.get('assembly_accession', '')}
-- Assembly name: {row.get('assembly_name', '')}
-- Assembly level: {row.get('assembly_level', '')}
-- Data source: {row.get('source', '')}
-- Source release: {row.get('source_release', '')}
-- Download date: {download_date}
-- Selection reason: {row.get('selection_reason', '')}
+- 组装编号: {row.get('assembly_accession', '')}
+- 组装名称: {row.get('assembly_name', '')}
+- 组装级别: {row.get('assembly_level', '')}
+- 数据来源: {row.get('source', '')}
+- 来源版本: {row.get('source_release', '')}
+- 下载日期: {download_date}
+- 选择理由: {row.get('selection_reason', '')}
 
-## Files
+## 文件
 
-- Genome URL: {row.get('genome_url', '')}
-- Genome file: {genome_path.name}
-- Genome file size bytes: {genome_path.stat().st_size if genome_path.exists() else ''}
-- Genome source size bytes: {row.get('genome_size_bytes', '')}
-- Genome SHA256: {genome_sha256}
-- Annotation URL: {row.get('annotation_url', '')}
-- Annotation file: {annotation_path.name}
-- Annotation format: {row.get('annotation_format', '')}
-- Annotation file size bytes: {annotation_path.stat().st_size if annotation_path.exists() else ''}
-- Annotation source size bytes: {row.get('annotation_size_bytes', '')}
-- Annotation SHA256: {annotation_sha256}
-- Source checksum URL: {row.get('md5_url', '')}
+- 基因组 URL: {row.get('genome_url', '')}
+- 基因组文件: {genome_path.name}
+- 基因组本地文件大小 bytes: {genome_path.stat().st_size if genome_path.exists() else ''}
+- 基因组来源标注大小 bytes: {row.get('genome_size_bytes', '')}
+- 基因组 SHA256: {genome_sha256}
+- 注释 URL: {row.get('annotation_url', '')}
+- 注释文件: {annotation_path.name}
+- 注释格式: {row.get('annotation_format', '')}
+- 注释本地文件大小 bytes: {annotation_path.stat().st_size if annotation_path.exists() else ''}
+- 注释来源标注大小 bytes: {row.get('annotation_size_bytes', '')}
+- 注释 SHA256: {annotation_sha256}
+- 来源 checksum URL: {row.get('md5_url', '')}
 
-## Validation
+## 校验
 
-- Validation status: {validation_status}
+- 校验状态: {validation_status}
 
-## Notes
+## 备注
 
 {row.get('skip_reason', '')}
 """

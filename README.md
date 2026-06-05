@@ -1,10 +1,18 @@
 # genome
 
-Crop genome and annotation download workspace.
+作物基因组与注释文件下载工作区。
 
-This repository contains planning documents and scripts for building a local
-crop genome collection. The workflow is review-first: generate a candidate
-manifest, summarize and validate it, run a dry-run, then execute downloads only
-after approval.
+本仓库用于规划和执行作物基因组数据集的本地构建流程。目标是为具有
+GFF/GTF 注释的作物物种下载基因组 FASTA 和对应注释文件，并按物种或
+assembly 建目录保存。
 
-No genome or annotation payloads are committed here.
+当前流程强调先审阅、再执行：
+
+1. 维护作物范围表。
+2. 生成候选下载清单 `planned_downloads.tsv`。
+3. 汇总和预检候选清单。
+4. 先 dry-run，确认目录和文件路径。
+5. 通过 `--execute` 显式执行下载。
+6. 为每个物种目录生成中文 README 文档、元数据和校验文件。
+
+仓库当前只保存规划文档、配置、脚本和测试，不提交基因组或注释数据本体。

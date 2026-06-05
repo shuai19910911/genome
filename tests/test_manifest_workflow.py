@@ -84,7 +84,7 @@ class ManifestWorkflowTests(unittest.TestCase):
             self.assertEqual(len(rows), 1)
             self.assertEqual(rows[0]["species"], "Oryza sativa")
 
-    def test_writes_english_and_chinese_readmes(self) -> None:
+    def test_writes_chinese_readmes(self) -> None:
         row = example_row()
         with tempfile.TemporaryDirectory() as tmp:
             species_dir = Path(tmp) / "Oryza_sativa_GCA_TEST001"
@@ -118,8 +118,9 @@ class ManifestWorkflowTests(unittest.TestCase):
 
             english = (species_dir / "README.md").read_text()
             chinese = (species_dir / "README.zh.md").read_text()
-            self.assertIn("Data source: Ensembl Plants", english)
-            self.assertIn("Genome file size bytes", english)
+            self.assertIn("数据来源: Ensembl Plants", english)
+            self.assertIn("基因组本地文件大小 bytes", english)
+            self.assertIn("校验状态: ok", english)
             self.assertIn("数据来源: Ensembl Plants", chinese)
             self.assertIn("基因组本地文件大小 bytes", chinese)
             self.assertIn("校验状态: ok", chinese)
