@@ -117,27 +117,42 @@ def download_url(url: str, out_path: Path, retries: int, sleep_seconds: float) -
     out_path.parent.mkdir(parents=True, exist_ok=True)
     tmp_path = out_path.with_suffix(out_path.suffix + ".part")
     if shutil.which("curl"):
-        cmd = [
-            "curl",
-            "-L",
-            "--fail",
-            "--retry",
-            str(retries),
-            "--retry-delay",
-            str(int(sleep_seconds)),
-            "--speed-limit",
-            "10240",
-            "--speed-time",
-            "120",
-            "-C",
-            "-",
-            "-o",
-            str(tmp_path),
-            url,
-        ]
-        subprocess.run(cmd, check=True)
-        tmp_path.replace(out_path)
-        return
+        last_error: subprocess.CalledProcessError | None = None
+        for attempt in range(1, retries + 1):
+            cmd = [
+                "curl",
+                "-L",
+                "--fail",
+                "--retry",
+                "2",
+                "--retry-delay",
+                str(int(sleep_seconds)),
+                "--speed-limit",
+                "10240",
+                "--speed-time",
+                "120",
+                "-C",
+                "-",
+                "-o",
+                str(tmp_path),
+                url,
+            ]
+            try:
+                subprocess.run(cmd, check=True)
+                tmp_path.replace(out_path)
+                return
+            except subprocess.CalledProcessError as exc:
+                last_error = exc
+                if attempt == retries:
+                    break
+                print(
+                    f"curl failed for {url} on attempt {attempt}/{retries}; "
+                    f"will resume after {sleep_seconds * attempt:.0f}s",
+                    file=sys.stderr,
+                    flush=True,
+                )
+                time.sleep(sleep_seconds * attempt)
+        raise RuntimeError(f"curl download failed after {retries} attempts: {last_error}") from last_error
 
     headers = {"User-Agent": "crop-genome-downloader/0.1"}
     for attempt in range(1, retries + 1):
