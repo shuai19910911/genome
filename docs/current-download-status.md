@@ -1,31 +1,30 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-06 18:03:42
-- 完成记录数: 142
-- 失败记录数: 1728
-- 已生成 assembly 目录数: 1875
-- 已生成 README 的完成目录数: 144
-- 本地数据总量: 889686452146 bytes (828.59 GiB)
-- 下载管理进程数: 6
-- aria2 活动下载数: 3
-- 最近速度: 2.37 MiB/s
+- 更新时间: 2026-06-06 18:24:07
+- 完成记录数: 145
+- 失败记录数: 1748
+- 已生成 assembly 目录数: 1897
+- 已生成 README 的完成目录数: 147
+- 本地数据总量: 895336669147 bytes (833.85 GiB)
+- 下载管理进程数: 4
+- aria2 活动下载数: 2
+- 最近速度: 4.26 MiB/s
 
 ## 各 shard 进展
 
 - download_manifest.shard01.tsv: 完成 35
 - download_manifest.shard02.tsv: 完成 34
-- download_manifest.shard03.tsv: 完成 34
-- download_manifest.shard04.tsv: 完成 39
+- download_manifest.shard03.tsv: 完成 36
+- download_manifest.shard04.tsv: 完成 40
 - failed_downloads.shard01.tsv: 失败 441
-- failed_downloads.shard02.tsv: 失败 417
-- failed_downloads.shard03.tsv: 失败 436
-- failed_downloads.shard04.tsv: 失败 434
+- failed_downloads.shard02.tsv: 失败 433
+- failed_downloads.shard03.tsv: 失败 438
+- failed_downloads.shard04.tsv: 失败 436
 
 ## 当前活动下载
 
-- `43016 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Arachis_hypogaea_GCA_028451205.1/genome --out GCA_028451205.1_arahy.BaileyII.gnm1.genome_main_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/028/451/205/GCA_028451205.1_arahy.BaileyII.gnm1.genome_main/GCA_028451205.1_arahy.BaileyII.gnm1.genome_main_genomic.fna.gz`
-- `51889 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Lactuca_sativa_GCA_039583335.1/genome --out GCA_039583335.1_cutv01_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/039/583/335/GCA_039583335.1_cutv01/GCA_039583335.1_cutv01_genomic.fna.gz`
-- `66054 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Citrullus_lanatus_GCA_054829975.1/genome --out GCA_054829975.1_ASM5482997v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/054/829/975/GCA_054829975.1_ASM5482997v1/GCA_054829975.1_ASM5482997v1_genomic.fna.gz`
+- `99241 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Lactuca_sativa_GCA_041283435.1/genome --out GCA_041283435.1_ASM4128343v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/041/283/435/GCA_041283435.1_ASM4128343v1/GCA_041283435.1_ASM4128343v1_genomic.fna.gz`
+- `114327 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Arachis_hypogaea_GCA_016103905.1/genome --out GCA_016103905.1_Haihua1_v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/016/103/905/GCA_016103905.1_Haihua1_v1/GCA_016103905.1_Haihua1_v1_genomic.fna.gz`
 
 ## 说明
 
