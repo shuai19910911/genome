@@ -32,3 +32,5 @@ download.shard*.pid
 download.monitor.log
 download.monitor.pid
 download.monitor.state.json
+download.github_update.log
+download.github_update.pid
