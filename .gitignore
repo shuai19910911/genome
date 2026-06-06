@@ -31,3 +31,4 @@ download.shard*.log
 download.shard*.pid
 download.monitor.log
 download.monitor.pid
+download.monitor.state.json
