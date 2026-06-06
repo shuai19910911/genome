@@ -21,6 +21,8 @@ __pycache__/
 # 下载运行产物保留本地，不推送大批状态文件
 download_manifest.tsv
 failed_downloads.tsv
+download_manifest.merged.tsv
+failed_downloads.merged.tsv
 download.log
 download.pid
 *.aria2
