@@ -1,14 +1,14 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-06 16:01:27
+- 更新时间: 2026-06-06 16:21:50
 - 完成记录数: 122
-- 失败记录数: 1624
-- 已生成 assembly 目录数: 1752
+- 失败记录数: 1632
+- 已生成 assembly 目录数: 1760
 - 已生成 README 的完成目录数: 124
-- 本地数据总量: 865050562040 bytes (805.64 GiB)
+- 本地数据总量: 866296290208 bytes (806.80 GiB)
 - 下载管理进程数: 8
 - aria2 活动下载数: 4
-- 最近速度: 3.55 MiB/s
+- 最近速度: 0.40 MiB/s
 
 ## 各 shard 进展
 
@@ -18,15 +18,15 @@
 - download_manifest.shard04.tsv: 完成 34
 - failed_downloads.shard01.tsv: 失败 439
 - failed_downloads.shard02.tsv: 失败 371
-- failed_downloads.shard03.tsv: 失败 390
-- failed_downloads.shard04.tsv: 失败 424
+- failed_downloads.shard03.tsv: 失败 395
+- failed_downloads.shard04.tsv: 失败 427
 
 ## 当前活动下载
 
 - `57150 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Helianthus_annuus_GCA_026651695.1/genome --out GCA_026651695.1_HanIRr1.0-20201123_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/026/651/695/GCA_026651695.1_HanIRr1.0-20201123/GCA_026651695.1_HanIRr1.0-20201123_genomic.fna.gz`
 - `73296 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Malus_domestica_GCA_047142335.1/genome --out GCA_047142335.1_ASM4714233v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/047/142/335/GCA_047142335.1_ASM4714233v1/GCA_047142335.1_ASM4714233v1_genomic.fna.gz`
-- `75935 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Citrullus_lanatus_GCA_054831825.1/genome --out GCA_054831825.1_ASM5483182v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/054/831/825/GCA_054831825.1_ASM5483182v1/GCA_054831825.1_ASM5483182v1_genomic.fna.gz`
-- `85807 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Cucumis_melo_GCA_026261915.1/genome --out GCA_026261915.1_SAS_pseudomol_v2.0_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/026/261/915/GCA_026261915.1_SAS_pseudomol_v2.0/GCA_026261915.1_SAS_pseudomol_v2.0_genomic.fna.gz`
+- `89336 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Phaseolus_vulgaris_GCA_016509755.1/genome --out GCA_016509755.1_ASM1650975v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/016/509/755/GCA_016509755.1_ASM1650975v1/GCA_016509755.1_ASM1650975v1_genomic.fna.gz`
+- `112868 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Cucumis_melo_GCA_040436765.1/genome --out GCA_040436765.1_INRAE_GAFL_Cmelo_Doublon_v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/040/436/765/GCA_040436765.1_INRAE_GAFL_Cmelo_Doublon_v1/GCA_040436765.1_INRAE_GAFL_Cmelo_Doublon_v1_genomic.fna.gz`
 
 ## 说明
 
