@@ -1,32 +1,32 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-06 15:00:07
-- 完成记录数: 106
-- 失败记录数: 1533
-- 已生成 assembly 目录数: 1645
-- 已生成 README 的完成目录数: 108
-- 本地数据总量: 846566464946 bytes (788.43 GiB)
+- 更新时间: 2026-06-06 15:20:29
+- 完成记录数: 110
+- 失败记录数: 1568
+- 已生成 assembly 目录数: 1684
+- 已生成 README 的完成目录数: 112
+- 本地数据总量: 851938464772 bytes (793.43 GiB)
 - 下载管理进程数: 8
 - aria2 活动下载数: 4
-- 最近速度: 4.76 MiB/s
+- 最近速度: 8.46 MiB/s
 
 ## 各 shard 进展
 
 - download_manifest.shard01.tsv: 完成 29
 - download_manifest.shard02.tsv: 完成 23
-- download_manifest.shard03.tsv: 完成 21
-- download_manifest.shard04.tsv: 完成 33
-- failed_downloads.shard01.tsv: 失败 423
-- failed_downloads.shard02.tsv: 失败 349
+- download_manifest.shard03.tsv: 完成 24
+- download_manifest.shard04.tsv: 完成 34
+- failed_downloads.shard01.tsv: 失败 433
+- failed_downloads.shard02.tsv: 失败 360
 - failed_downloads.shard03.tsv: 失败 374
-- failed_downloads.shard04.tsv: 失败 387
+- failed_downloads.shard04.tsv: 失败 401
 
 ## 当前活动下载
 
-- `89336 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Vitis_vinifera_GCA_044589015.1/genome --out GCA_044589015.1_V093.hap2_v1.0_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/044/589/015/GCA_044589015.1_V093.hap2_v1.0/GCA_044589015.1_V093.hap2_v1.0_genomic.fna.gz`
-- `91118 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Citrullus_lanatus_GCA_054830095.1/genome --out GCA_054830095.1_ASM5483009v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/054/830/095/GCA_054830095.1_ASM5483009v1/GCA_054830095.1_ASM5483009v1_genomic.fna.gz`
-- `91523 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Malus_domestica_GCA_052938535.1/genome --out GCA_052938535.1_TropicalBeauty_h1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/052/938/535/GCA_052938535.1_TropicalBeauty_h1/GCA_052938535.1_TropicalBeauty_h1_genomic.fna.gz`
-- `91756 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Cucumis_melo_GCA_020920055.1/genome --out GCA_020920055.1_TAD_pseudomol_v1.0_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/020/920/055/GCA_020920055.1_TAD_pseudomol_v1.0/GCA_020920055.1_TAD_pseudomol_v1.0_genomic.fna.gz`
+- `12390 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Citrullus_lanatus_GCA_054825255.1/genome --out GCA_054825255.1_ASM5482525v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/054/825/255/GCA_054825255.1_ASM5482525v1/GCA_054825255.1_ASM5482525v1_genomic.fna.gz`
+- `12918 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Phaseolus_vulgaris_GCA_029448765.1/genome --out GCA_029448765.1_ASM2944876v1_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/029/448/765/GCA_029448765.1_ASM2944876v1/GCA_029448765.1_ASM2944876v1_genomic.fna.gz`
+- `13074 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Malus_domestica_GCA_052938975.1/genome --out GCA_052938975.1_Rouget_h2_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/052/938/975/GCA_052938975.1_Rouget_h2/GCA_052938975.1_Rouget_h2_genomic.fna.gz`
+- `13180 aria2c --continue=true --max-tries=2 --retry-wait 20 --timeout=120 --connect-timeout=60 --max-connection-per-server=1 --split=1 --min-split-size=8M --file-allocation=none --allow-overwrite=true --auto-file-renaming=false --dir Vitis_vinifera_GCA_940446525.1/genome --out GCA_940446525.1_Gf.99-03_haplotype_Gf9918_genomic.fna.gz.part https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/940/446/525/GCA_940446525.1_Gf.99-03_haplotype_Gf9918/GCA_940446525.1_Gf.99-03_haplotype_Gf9918_genomic.fna.gz`
 
 ## 说明
 
