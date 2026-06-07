@@ -1,28 +1,28 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 19:17:06
+- 更新时间: 2026-06-07 19:35:33
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
-- 已生成 README 的完成目录数: 217
-- 本地数据总量: 903096120356 bytes (841.07 GiB)
+- 已生成 README 的完成目录数: 225
+- 本地数据总量: 903230743049 bytes (841.20 GiB)
 - 下载管理进程数: 0
 - aria2 活动下载数: 0
 - 最近速度: 0.00 MiB/s
 
 ## 当前分类结果
 
-- 有 genome 和至少一种注释的目录: 222
-- 只有 genome、缺少 GFF3/GTF 注释的目录: 1684
+- 有 genome 和至少一种注释的目录: 230
+- 只有 genome、缺少 GFF3/GTF 注释的目录: 1676
 - 完整索引: `docs/completed-genome-index.tsv`
 - 未完整索引: `docs/incomplete-genome-index.tsv`
 
 ## 外部注释补充
 
-- 已将 62 个 Ensembl Plants 候选 GFF3/GTF 归档到本地 assembly 目录；本次扩大扫描到 31 个当前缺口物种、每物种最多 100 个目录。
-- 已归档: `Cucumis_melo_GCA_902497455.1`、`Citrullus_lanatus_GCA_000238415.2`、`Solanum_tuberosum_GCA_014189475.1`、`Malus_domestica_GCA_002114115.1`、14 个 `Oryza sativa` assembly、40 个 `Hordeum vulgare` assembly，以及 4 个 `Triticum aestivum` assembly。
-- 本次新增 8 个大麦 HOR 候选: `GCA_949783395.1`、`GCA_949783295.1`、`GCA_949783355.1`、`GCA_949783365.1`、`GCA_949783335.1`、`GCA_949783535.1`、`GCA_949783465.1`、`GCA_949783405.1`，均已按 seqid/长度验证通过。
-- 最近四批新增的 30 个大麦候选的 Ensembl GTF metadata accession/genome-version 与本地 assembly 一致，并已按染色体/contig 别名和长度验证通过。
+- 已将 70 个 Ensembl Plants 候选 GFF3/GTF 归档到本地 assembly 目录；本次扩大扫描到 31 个当前缺口物种、每物种最多 100 个目录。
+- 已归档: `Cucumis_melo_GCA_902497455.1`、`Citrullus_lanatus_GCA_000238415.2`、`Solanum_tuberosum_GCA_014189475.1`、`Malus_domestica_GCA_002114115.1`、14 个 `Oryza sativa` assembly、48 个 `Hordeum vulgare` assembly，以及 4 个 `Triticum aestivum` assembly。
+- 本次新增 8 个大麦 HOR 候选: `GCA_949783305.1`、`GCA_949783445.1`、`GCA_949783375.1`、`GCA_949783435.1`、`GCA_949783285.1`、`GCA_949783485.1`、`GCA_949783545.1`、`GCA_949783495.1`，均已按 seqid/长度验证通过。
+- 最近五批新增的 38 个大麦候选的 Ensembl GTF metadata accession/genome-version 与本地 assembly 一致，并已按染色体/contig 别名和长度验证通过。
 - `Oryza_sativa_GCA_965117765.1` 与 `oryza_sativa_ir64`、`Malus_domestica_GCA_033882605.1` 与 `malus_domestica_golden` 注释候选验证失败，已记录报告但没有归档。
 - 水稻 `Oryza_sativa_GCA_001623365.2` / MH63 候选验证失败，已记录报告但没有归档。
 - 小麦 `Triticum_aestivum_GCA_902810645.1` / Cadenza、`GCA_902810655.1` / Claire、`GCA_902810685.1` / Robigus 三个候选验证失败，已记录报告但没有归档。
@@ -44,7 +44,7 @@
 
 - 已在 `genome_down` 环境安装 `ncbi-datasets-cli`，版本为 18.29.1。
 - 抽样测试 10 个 genome-only 的 GenBank (`GCA`) accession，没有从 Datasets 补到 GFF3/GTF；请求 `--include gff3` 或 `--include gtf` 时 CLI 会崩溃。
-- Ensembl Plants 候选扫描已扩展到当前 31 个缺口物种，发现 140 个同物种候选目录、60 个 assembly 名称候选；目前已有 62 个候选完成坐标验证和归档。
+- Ensembl Plants 候选扫描已扩展到当前 31 个缺口物种，发现 140 个同物种候选目录、60 个 assembly 名称候选；目前已有 70 个候选完成坐标验证和归档。
 - 同物种候选不能直接混用，必须继续按 assembly、品种名、染色体名和长度做验证。
 
 ## 各 shard 进展
