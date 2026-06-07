@@ -124,7 +124,8 @@ def first_annotation_file(files: list[str], suffix: str) -> str:
     if not preferred:
         return ""
     primary = [name for name in preferred if "abinitio" not in name.lower()]
-    return sorted(primary or preferred)[0]
+    complete = [name for name in primary if ".chromosome." not in name.lower()]
+    return sorted(complete or primary or preferred)[0]
 
 
 def accession_hits(text: str) -> set[str]:

@@ -1,21 +1,21 @@
 # 作物基因组下载状态分类
 
-- 检查时间: 2026-06-07 14:47:35
+- 检查时间: 2026-06-07 15:34:08
 - 计划条目: 1906
 - 完成清单条目: 149
 - 失败清单条目: 1755
 - 实际 assembly 目录: 1906
-- 完整或基本完整目录: 198
-- 未完整目录: 1708
-- 未完整但已有 genome 文件的目录: 1708
+- 完整或基本完整目录: 202
+- 未完整目录: 1704
+- 未完整但已有 genome 文件的目录: 1704
 - 未完整且没有 genome 文件的目录: 0
-- 本地目录总大小: 902580498711 bytes (840.59 GiB)
+- 本地目录总大小: 902734685987 bytes (840.74 GiB)
 
 ## 分类结果
 
-- 只有基因组：缺少 GFF3/GTF 注释: 1708
+- 只有基因组：缺少 GFF3/GTF 注释: 1704
 - 完整：清单、文件、中文 README 都存在: 149
-- 基本完整：文件存在，但清单或 README 需要复核: 49
+- 基本完整：文件存在，但清单或 README 需要复核: 53
 
 ## 生成的索引
 
@@ -34,8 +34,8 @@
 
 - Malus domestica: 41
 - Hordeum vulgare: 31
-- Oryza sativa: 21
-- Triticum aestivum: 14
+- Oryza sativa: 22
+- Triticum aestivum: 17
 - Arachis hypogaea: 9
 - Glycine max: 9
 - Helianthus annuus: 9
@@ -57,13 +57,13 @@
 
 - Beta vulgaris: 326
 - Zea mays: 185
-- Oryza sativa: 177
+- Oryza sativa: 176
 - Hordeum vulgare: 171
 - Citrullus lanatus: 117
 - Brassica napus: 107
 - Solanum tuberosum: 92
 - Vitis vinifera: 87
-- Triticum aestivum: 59
+- Triticum aestivum: 56
 - Cucumis sativus: 44
 - Cucumis melo: 39
 - Malus domestica: 39
