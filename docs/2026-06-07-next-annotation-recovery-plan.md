@@ -7,8 +7,8 @@
 
 - NCBI 第一轮下载已经结束，没有下载进程和 aria2 活动任务。
 - 计划条目一共 1906 个。
-- 有 genome 和至少一种注释的目录有 258 个，其中 149 个来自原始完成清单，其余主要来自后续外部注释补全。
-- 未完整目录有 1648 个；这些目录不是空目录，都已经有 genome 文件，主要缺少 GFF3/GTF 注释。
+- 有 genome 和至少一种注释的目录有 259 个，其中 149 个来自原始完成清单，其余主要来自后续外部注释补全。
+- 未完整目录有 1647 个；这些目录不是空目录，都已经有 genome 文件，主要缺少 GFF3/GTF 注释。
 - `genome_down` 环境已安装 `ncbi-datasets-cli`，`datasets` 版本为 18.29.1。
 - 已抽样测试 10 个 genome-only 的 GenBank (`GCA`) accession；这些样本在 Datasets 中能查到 genome 记录，但没有得到 GFF3/GTF 注释，请求注释时 CLI 会崩溃。
 
@@ -23,6 +23,7 @@
    - 水稻、玉米、小麦、大豆、油菜、番茄、马铃薯、葡萄、甜菜等重点作物优先查专项库或 Ensembl Plants。
    - 如果专项数据库只提供基因结构注释而 accession 名称不完全一致，需要在 README 里明确“注释来源与 genome 来源不同”。
    - Phytozome 继续按用户要求暂不下载，只保留记录。
+   - Ensembl assembly-name 候选已处理完；species-only 候选需要新增 accession/assembly 证据后再进入验证。
 
 3. 补齐文档。
    - 对补到注释的目录生成中文 `README.zh.md` 和英文 `README.md`。
