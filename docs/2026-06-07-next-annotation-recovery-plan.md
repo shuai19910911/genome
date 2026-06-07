@@ -1,6 +1,6 @@
 # 下一轮注释补全方案
 
-- 检查时间: 2026-06-07 11:22:38 CST
+- 检查时间: 2026-06-07 11:41:18 CST
 - 当前状态来源: `docs/current-download-status.md`、`docs/completed-genome-index.tsv`、`docs/incomplete-genome-index.tsv`
 
 ## 当前结论
@@ -9,35 +9,31 @@
 - 计划条目一共 1906 个。
 - 有 genome 和至少一种注释的目录有 156 个，其中 149 个已经完全进入完成清单。
 - 未完整目录有 1750 个；这些目录不是空目录，都已经有 genome 文件，主要缺少 GFF3/GTF 注释。
-- `genome_down` 环境目前没有 `datasets` 命令，不能直接使用 NCBI Datasets CLI 补注释。
+- `genome_down` 环境已安装 `ncbi-datasets-cli`，`datasets` 版本为 18.29.1。
+- 已抽样测试 10 个 genome-only 的 GenBank (`GCA`) accession；这些样本在 Datasets 中能查到 genome 记录，但没有得到 GFF3/GTF 注释，请求注释时 CLI 会崩溃。
 
 ## 下一轮优先顺序
 
-1. 先安装或补齐工具。
-   - 优先在 `genome_down` 中安装 `ncbi-datasets-cli`。
-   - 安装后先运行 `datasets --version` 记录版本。
-   - 不建议一开始全量跑，先选 5 到 10 个失败 accession 做小样本测试。
+1. 保留 Datasets 作为辅助验证工具。
+   - `ncbi-datasets-cli` 已安装，可以继续少量验证 accession。
+   - 对本轮 1750 个 genome-only 的 GCA 条目，不建议直接全量跑 Datasets；抽样结果显示成功率很低，而且 CLI 会在无注释时崩溃。
+   - 后续脚本遇到 Datasets 崩溃，应记录为“Datasets 无可用注释”，不要无限重试。
 
-2. 用 NCBI Datasets 测试补注释。
-   - 对 `docs/incomplete-genome-index.tsv` 里的 accession 批量尝试。
-   - 目标文件优先是 GFF3，其次是 GTF。
-   - 如果 Datasets 包里也没有注释，就记录为“NCBI Datasets 也缺注释”，不要重复浪费时间。
-
-3. 按物种转向专项数据库。
+2. 按物种转向专项数据库。
    - 水稻、玉米、小麦、大豆、油菜、番茄、马铃薯、葡萄、甜菜等重点作物优先查专项库或 Ensembl Plants。
    - 如果专项数据库只提供基因结构注释而 accession 名称不完全一致，需要在 README 里明确“注释来源与 genome 来源不同”。
    - Phytozome 继续按用户要求暂不下载，只保留记录。
 
-4. 补齐文档。
+3. 补齐文档。
    - 对补到注释的目录生成中文 `README.zh.md` 和英文 `README.md`。
    - 对确实没有注释来源的目录，生成中文失败说明，避免目录看起来像遗漏。
    - 每次阶段进展继续更新 `docs/current-download-status.md` 并推送 GitHub。
 
 ## 建议的批处理口径
 
-- 第一批: 从 `incomplete-genome-index.tsv` 中每个物种抽 1 到 2 个 accession，验证 NCBI Datasets 是否能补到注释。
-- 第二批: 如果 NCBI Datasets 有效，再按物种并发补注释，但保留限速和失败重试日志。
-- 第三批: 对 Datasets 仍失败的重点作物，进入专项数据库人工规则。
+- 第一批: 从 `incomplete-genome-index.tsv` 中按物种建立专项数据库候选表，先覆盖失败最多的作物。
+- 第二批: 对每个物种找 1 到 2 个权威专项来源做小样本验证，确认注释坐标版本是否能和现有 genome 对上。
+- 第三批: 对验证通过的来源批量补注释；对验证不通过的来源只记录，不强行混用。
 
 ## 当前不建议做的事
 
