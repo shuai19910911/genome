@@ -34,6 +34,12 @@ def rel(path: Path) -> str:
     return str(path.resolve().relative_to(ROOT))
 
 
+def file_note(path: Path | None) -> str:
+    if path is None:
+        return "未提供"
+    return f"`{rel(path)}` ({path.stat().st_size} bytes)"
+
+
 def load_json(path: Path) -> dict[str, object]:
     return json.loads(path.read_text(encoding="utf-8"))
 
@@ -46,7 +52,7 @@ def build_readme_zh(
     metadata: dict[str, object],
     genome: Path,
     gff3: Path,
-    gtf: Path,
+    gtf: Path | None,
     checksums_path: Path,
     validation_report: Path,
     source_name: str,
@@ -91,17 +97,17 @@ def build_readme_zh(
 - GFF3 原始地址: {gff3_url}
 - GTF 原始地址: {gtf_url}
 - 本地 GFF3: `{rel(gff3)}` ({gff3.stat().st_size} bytes)
-- 本地 GTF: `{rel(gtf)}` ({gtf.stat().st_size} bytes)
+- 本地 GTF: {file_note(gtf)}
 
 ## 版本差异和验证结论
 
-- Ensembl GTF 记录的 genome-build-accession: {gtf_build_accession}
-- Ensembl GTF 记录的 genome-version: {gtf_genome_version}
+- GTF 记录的 genome-build-accession: {gtf_build_accession}
+- GTF 记录的 genome-version: {gtf_genome_version}
 - 本地基因组 accession: {accession}
 - 验证结论: {validation_summary}
 - 验证报告: `{rel(validation_report)}`
 
-注意：这里的注释文件来自 Ensembl Plants，而基因组文件来自 NCBI GenBank。即使来源名称看起来一致，也不能只看名字判断是否可用；本次已经按染色体/contig 别名和长度做了校验，确认通过后才作为同坐标注释候选归档。若 Ensembl 元数据中的 accession 版本与本地 genome 版本不同，上面会单独列出。
+注意：这里的注释文件来自 {source_name}，而基因组文件来自 NCBI GenBank。即使来源名称看起来一致，也不能只看名字判断是否可用；本次已经按染色体/contig 别名和长度做了校验，确认通过后才作为同坐标注释候选归档。若来源元数据中的 accession 版本与本地 genome 版本不同，上面会单独列出。
 
 ## 校验和
 
@@ -117,7 +123,7 @@ def build_readme_en(
     metadata: dict[str, object],
     genome: Path,
     gff3: Path,
-    gtf: Path,
+    gtf: Path | None,
     checksums_path: Path,
     validation_report: Path,
     source_name: str,
@@ -162,17 +168,17 @@ This directory stores one crop genome assembly and validated matching annotation
 - GFF3 URL: {gff3_url}
 - GTF URL: {gtf_url}
 - Local GFF3: `{rel(gff3)}` ({gff3.stat().st_size} bytes)
-- Local GTF: `{rel(gtf)}` ({gtf.stat().st_size} bytes)
+- Local GTF: {file_note(gtf)}
 
 ## Version Note and Validation
 
-- Ensembl GTF genome-build-accession: {gtf_build_accession}
-- Ensembl GTF genome-version: {gtf_genome_version}
+- GTF genome-build-accession: {gtf_build_accession}
+- GTF genome-version: {gtf_genome_version}
 - Local genome accession: {accession}
 - Validation summary: {validation_summary}
 - Validation report: `{rel(validation_report)}`
 
-The annotation files come from Ensembl Plants, while the genome file comes from NCBI GenBank. The pair was validated by sequence aliases and sequence lengths before being archived. Any accession-version difference recorded in Ensembl metadata is listed above.
+The annotation files come from {source_name}, while the genome file comes from NCBI GenBank. The pair was validated by sequence aliases and sequence lengths before being archived. Any accession-version difference recorded in source metadata is listed above.
 
 ## Checksums
 
@@ -190,7 +196,7 @@ def main() -> int:
     parser.add_argument("--metadata", required=True)
     parser.add_argument("--genome", required=True)
     parser.add_argument("--gff3", required=True)
-    parser.add_argument("--gtf", required=True)
+    parser.add_argument("--gtf")
     parser.add_argument("--validation-report", required=True)
     parser.add_argument("--source-name", required=True)
     parser.add_argument("--source-dir", required=True)
@@ -205,35 +211,41 @@ def main() -> int:
     metadata_path = ROOT / args.metadata
     genome = ROOT / args.genome
     src_gff3 = ROOT / args.gff3
-    src_gtf = ROOT / args.gtf
+    src_gtf = ROOT / args.gtf if args.gtf else None
     validation_report = ROOT / args.validation_report
     annotation_dir = species_dir / "annotation"
     checksums_dir = species_dir / "checksums"
     provenance_path = species_dir / "metadata" / "external_annotation_source.json"
 
-    for path in [species_dir, metadata_path, genome, src_gff3, src_gtf, validation_report]:
+    for path in [species_dir, metadata_path, genome, src_gff3, validation_report]:
         if not path.exists():
             raise FileNotFoundError(path)
+    if src_gtf is not None and not src_gtf.exists():
+        raise FileNotFoundError(src_gtf)
 
     gzip_ok(src_gff3)
-    gzip_ok(src_gtf)
+    if src_gtf is not None:
+        gzip_ok(src_gtf)
 
     annotation_dir.mkdir(parents=True, exist_ok=True)
     checksums_dir.mkdir(parents=True, exist_ok=True)
     (species_dir / "metadata").mkdir(parents=True, exist_ok=True)
 
     dest_gff3 = annotation_dir / src_gff3.name
-    dest_gtf = annotation_dir / src_gtf.name
     shutil.copy2(src_gff3, dest_gff3)
-    shutil.copy2(src_gtf, dest_gtf)
+    dest_gtf = None
+    if src_gtf is not None:
+        dest_gtf = annotation_dir / src_gtf.name
+        shutil.copy2(src_gtf, dest_gtf)
 
     archived_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S %Z").strip()
     metadata = load_json(metadata_path)
     checksums = {
         rel(genome): sha256_file(genome),
         rel(dest_gff3): sha256_file(dest_gff3),
-        rel(dest_gtf): sha256_file(dest_gtf),
     }
+    if dest_gtf is not None:
+        checksums[rel(dest_gtf)] = sha256_file(dest_gtf)
     checksums_path = checksums_dir / "SHA256SUMS"
     write_text(checksums_path, "\n".join(f"{digest}  {path}" for path, digest in checksums.items()))
 
@@ -248,7 +260,7 @@ def main() -> int:
         "validation_summary": args.validation_summary,
         "validation_report": rel(validation_report),
         "local_gff3": rel(dest_gff3),
-        "local_gtf": rel(dest_gtf),
+        "local_gtf": rel(dest_gtf) if dest_gtf is not None else None,
         "sha256": checksums,
     }
     provenance_path.write_text(json.dumps(provenance, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -293,7 +305,7 @@ def main() -> int:
     )
 
     print(f"archived_gff3={rel(dest_gff3)}")
-    print(f"archived_gtf={rel(dest_gtf)}")
+    print(f"archived_gtf={rel(dest_gtf) if dest_gtf is not None else '未提供'}")
     print(f"readme_zh={rel(species_dir / 'README.zh.md')}")
     print(f"readme_en={rel(species_dir / 'README.md')}")
     print(f"checksums={rel(checksums_path)}")

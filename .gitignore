@@ -40,6 +40,8 @@ datasets_recovery_test/
 ensembl_plants_cache/
 ensembl_validation/
 gramene_cache/
+legumeinfo_cache/
+legumeinfo_validation/
 
 # 坐标验证明细可能非常大；GitHub 只提交简短 Markdown 报告
 docs/*seqid-validation.tsv

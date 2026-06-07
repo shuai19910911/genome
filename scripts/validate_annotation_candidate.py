@@ -74,6 +74,23 @@ def gff3_seqids(path: Path, limit: int = 100000) -> set[str]:
     return seqids
 
 
+def gff3_feature_max_ends(path: Path) -> dict[str, int]:
+    max_ends: dict[str, int] = {}
+    with opener(path) as handle:
+        for line in handle:
+            if line.startswith("#"):
+                continue
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) < 5:
+                continue
+            try:
+                end = int(parts[4])
+            except ValueError:
+                continue
+            max_ends[parts[0]] = max(max_ends.get(parts[0], 0), end)
+    return max_ends
+
+
 def gtf_metadata(path: Path) -> dict[str, str]:
     meta: dict[str, str] = {}
     with opener(path) as handle:
@@ -113,6 +130,32 @@ def normalize_seq_label(value: str) -> str:
 
 def candidate_aliases(name: str) -> set[str]:
     aliases = {name, normalize_chromosome_name(name)}
+    for token in re.split(r"[\s,;]+", name):
+        token = token.strip()
+        if not token:
+            continue
+        aliases.add(token)
+        token = token.removesuffix(".")
+        aliases.add(token)
+        dotted_parts = token.split(".")
+        if dotted_parts:
+            aliases.add(dotted_parts[-1])
+        if len(dotted_parts) >= 2:
+            aliases.add(".".join(dotted_parts[-2:]))
+        if len(dotted_parts) >= 3:
+            aliases.add(".".join(dotted_parts[-3:]))
+        gm_match = re.fullmatch(r"Gm0*([0-9]+)", dotted_parts[-1], flags=re.I)
+        if gm_match:
+            number = str(int(gm_match.group(1)))
+            aliases.update({number, f"chr{number}", f"Gm{int(number):02d}"})
+        scaffold_match = re.fullmatch(r"Scaffold_0*([0-9]+)", dotted_parts[-1], flags=re.I)
+        if scaffold_match:
+            number = str(int(scaffold_match.group(1)))
+            aliases.update({f"Scaffold_{int(number):03d}", f"Scaffold_{number}"})
+        sc_match = re.fullmatch(r"sc0*([0-9]+)", dotted_parts[-1], flags=re.I)
+        if sc_match:
+            number = str(int(sc_match.group(1)))
+            aliases.update({f"sc{number}", f"Lee.sc{number}"})
     for pattern in [
         r"chromosome:\s*([0-9]+[A-Za-z]*)",
         r"\bchromosome\s+([0-9]+[A-Za-z]*)\b",
@@ -134,14 +177,15 @@ def main() -> int:
     parser.add_argument("--accession", required=True)
     parser.add_argument("--genome", type=Path, required=True)
     parser.add_argument("--gff3", type=Path, required=True)
-    parser.add_argument("--gtf", type=Path, required=True)
+    parser.add_argument("--gtf", type=Path)
     parser.add_argument("--output-prefix", type=Path, required=True)
     args = parser.parse_args()
 
     genome_lengths, genome_aliases = fasta_lengths(args.genome)
     region_lengths = gff3_regions(args.gff3)
     gff_seqids = gff3_seqids(args.gff3)
-    meta = gtf_metadata(args.gtf)
+    feature_max_ends = gff3_feature_max_ends(args.gff3)
+    meta = gtf_metadata(args.gtf) if args.gtf else {}
 
     normalized_genome: dict[str, list[tuple[str, int]]] = {}
     for seqid, length in genome_lengths.items():
@@ -160,7 +204,9 @@ def main() -> int:
     unique_length_matches = 0
     length_mismatches = 0
     missing_regions = 0
-    for seqid, ann_length in sorted(region_lengths.items()):
+    validation_targets = region_lengths or feature_max_ends
+    used_feature_bounds = not region_lengths
+    for seqid, ann_length in sorted(validation_targets.items()):
         local_exact = genome_lengths.get(seqid)
         normalized_candidates: list[tuple[str, int]] = []
         seen_candidates: set[tuple[str, int]] = set()
@@ -170,16 +216,25 @@ def main() -> int:
                     normalized_candidates.append(item)
                     seen_candidates.add(item)
         unique_length_ids = length_to_seqids.get(ann_length, [])
-        if local_exact == ann_length:
+        if used_feature_bounds and local_exact is not None and local_exact >= ann_length:
+            status = "exact_seqid_feature_within_length"
+            exact_matches += 1
+            local_id = seqid
+            local_length = local_exact
+        elif not used_feature_bounds and local_exact == ann_length:
             status = "exact_seqid_and_length"
             exact_matches += 1
             local_id = seqid
             local_length = local_exact
-        elif any(length == ann_length for _, length in normalized_candidates):
+        elif used_feature_bounds and any(length >= ann_length for _, length in normalized_candidates):
+            status = "normalized_seqid_feature_within_length"
+            normalized_matches += 1
+            local_id, local_length = next((item for item in normalized_candidates if item[1] >= ann_length))
+        elif not used_feature_bounds and any(length == ann_length for _, length in normalized_candidates):
             status = "normalized_seqid_and_length"
             normalized_matches += 1
             local_id, local_length = next((item for item in normalized_candidates if item[1] == ann_length))
-        elif len(unique_length_ids) == 1:
+        elif not used_feature_bounds and len(unique_length_ids) == 1:
             status = "unique_length_match"
             unique_length_matches += 1
             local_id = unique_length_ids[0]
@@ -204,12 +259,12 @@ def main() -> int:
             }
         )
 
-    covered_seqids = len(gff_seqids & set(region_lengths))
+    covered_seqids = len(gff_seqids & set(region_lengths)) if region_lengths else len(feature_max_ends)
     pass_validation = (
-        len(region_lengths) > 0
+        len(validation_targets) > 0
         and missing_regions == 0
         and length_mismatches == 0
-        and (exact_matches + normalized_matches + unique_length_matches) == len(region_lengths)
+        and (exact_matches + normalized_matches + unique_length_matches) == len(validation_targets)
     )
 
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
@@ -229,11 +284,13 @@ def main() -> int:
         f"- accession: {args.accession}",
         f"- genome: `{args.genome}`",
         f"- GFF3: `{args.gff3}`",
-        f"- GTF: `{args.gtf}`",
-        f"- GTF genome-build-accession: {meta.get('genome-build-accession', '未记录')}",
-        f"- GTF genome-version: {meta.get('genome-version', '未记录')}",
+        f"- GTF: `{args.gtf}`" if args.gtf else "- GTF: 未提供",
+        f"- GTF genome-build-accession: {meta.get('genome-build-accession', '未提供')}",
+        f"- GTF genome-version: {meta.get('genome-version', '未提供')}",
         f"- genome 序列数: {len(genome_lengths)}",
         f"- GFF3 sequence-region 数: {len(region_lengths)}",
+        f"- GFF3 feature seqid 数: {len(feature_max_ends)}",
+        f"- 使用 feature 最大 end 坐标兜底验证: {'是' if used_feature_bounds else '否'}",
         f"- GFF3 已抽样 feature seqid 覆盖 region 数: {covered_seqids}",
         f"- exact seqid+length 匹配数: {exact_matches}",
         f"- 归一化 seqid+length 匹配数: {normalized_matches}",
@@ -246,6 +303,7 @@ def main() -> int:
         "",
         "- 归一化匹配处理 FASTA 头中的常见染色体/contig 别名，例如 `chromosome 1`、`chromosome: 1A`、`contig: chr01`。",
         "- 唯一长度匹配表示该注释 region 的长度在本地 genome 中只出现一次；这只能作为 accession/genome-version 明确对应时的补充证据。",
+        "- 如果 GFF3 没有 `##sequence-region`，则使用每个 feature seqid 的最大 end 坐标兜底验证；这种验证能确认坐标不越界，但不能证明整条序列长度完全一致。",
         "- 如果 GTF 记录的 accession 版本和本地 genome accession 版本不同，即使长度匹配，也需要在 README 中明确来源差异。",
         f"- 明细表: `{tsv_path.relative_to(ROOT) if tsv_path.is_relative_to(ROOT) else tsv_path}`",
         "",

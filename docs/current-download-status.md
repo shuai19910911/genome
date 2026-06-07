@@ -1,19 +1,19 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 16:20:55
+- 更新时间: 2026-06-07 17:19:17
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
-- 已生成 README 的完成目录数: 197
-- 本地数据总量: 902734685987 bytes (840.74 GiB)
+- 已生成 README 的完成目录数: 198
+- 本地数据总量: 902749012981 bytes (840.75 GiB)
 - 下载管理进程数: 0
 - aria2 活动下载数: 0
 - 最近速度: 0.00 MiB/s
 
 ## 当前分类结果
 
-- 有 genome 和至少一种注释的目录: 202
-- 只有 genome、缺少 GFF3/GTF 注释的目录: 1704
+- 有 genome 和至少一种注释的目录: 203
+- 只有 genome、缺少 GFF3/GTF 注释的目录: 1703
 - 完整索引: `docs/completed-genome-index.tsv`
 - 未完整索引: `docs/incomplete-genome-index.tsv`
 
@@ -29,7 +29,10 @@
 - 小麦 `Triticum_aestivum_GCA_910594105.1` / Kariega、`GCA_920937835.1` / Renan、`GCA_937894285.1` / Renan 均已用 Ensembl 完整 GFF3/GTF 验证通过并归档。
 - Gramene release-61 已完成扩展候选扫描，前 16 个高缺口物种中发现 69 个同物种候选、7 个 assembly 名称候选、0 个 accession 精确候选。
 - Gramene `Oryza_sativa_GCA_965117765.1` / IR64、`Oryza_sativa_GCA_001623365.2` / MH63、`Malus_domestica_GCA_033882605.1` / Golden、`Solanum_lycopersicum_GCA_927333815.3` / SL3.0，以及小麦 Cadenza/Claire/Robigus 候选验证失败，已记录报告但没有归档。
-- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md` 和 `docs/2026-06-07-GCA_*-gramene-*.validation.md`。
+- LegumeInfo 已扫描 Arachis hypogaea、Glycine max、Phaseolus vulgaris、Vigna radiata、Cicer arietinum 5 个豆科作物目录，找到 2 个 assembly 名称候选。
+- LegumeInfo 大豆 `Glycine_max_GCA_002905335.2` / Lee 候选只有 GFF3、没有 GTF；已用 30 个 feature seqid 最大 end 坐标不越界规则验证通过并归档。
+- LegumeInfo 花生 `Arachis_hypogaea_GCA_028451205.1` / BaileyII 候选验证失败，已记录报告但没有归档。
+- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`、`docs/2026-06-07-GCA_*-gramene-*.validation.md` 和 `docs/2026-06-07-GCA_*-legumeinfo-*.validation.md`。
 - Phytozome 仍按原决定暂不下载，只记录后续可用性。
 
 ## 前期测试结论
