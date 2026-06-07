@@ -51,7 +51,7 @@
 
 | Input | Path | Description |
 |---|---|---|
-| validation outcome 表 | `docs/2026-06-07-validation-outcome-table.tsv` | 99 条外部注释候选验证记录 |
+| validation outcome 表 | `docs/2026-06-07-validation-outcome-table.tsv` | 107 条外部注释候选验证记录 |
 | 数据可用性审计 | `docs/2026-06-07-data-availability-audit.md` | Stage 1 研究审计与候选 RQ |
 | 完整索引 | `docs/completed-genome-index.tsv` | 已有 genome+annotation 的本地目录 |
 | 未完整索引 | `docs/incomplete-genome-index.tsv` | 只有 genome、缺少 GFF3/GTF 的本地目录 |
@@ -60,18 +60,18 @@
 
 | Output | Path | Format | Success Criterion |
 |---|---|---|---|
-| route 汇总 | `docs/2026-06-07-validation-summary-by-route.tsv` | TSV | 总数为 99，route 总数之和等于 outcome 表记录数 |
+| route 汇总 | `docs/2026-06-07-validation-summary-by-route.tsv` | TSV | route 总数之和等于 outcome 表记录数 |
 | species 汇总 | `docs/2026-06-07-validation-summary-by-species.tsv` | TSV | 每个 species 的 pass/fail 数可追溯到 outcome 表 |
-| assembly level 汇总 | `docs/2026-06-07-validation-summary-by-assembly-level.tsv` | TSV | assembly level 总数之和等于 99 |
+| assembly level 汇总 | `docs/2026-06-07-validation-summary-by-assembly-level.tsv` | TSV | assembly level 总数之和等于 outcome 表记录数 |
 | failure class 汇总 | `docs/2026-06-07-validation-summary-by-failure-class.tsv` | TSV | fail 记录应分配到 missing_seqid_or_region 或 length_mismatch 等类别 |
 
 ## Current Baseline Results
 
 | 分组 | 主要结果 |
 |---|---|
-| source_route | Ensembl Plants 78/84 通过；RefSeq paired 3/3 通过；Gramene 0/7；MaizeGDB 0/3；LegumeInfo 1/2 |
-| species | Hordeum vulgare 56/56 通过；Oryza sativa 15/19；Triticum aestivum 4/10；Zea mays 0/3 |
-| assembly_level | Chromosome 78/86 通过；Complete Genome 3/3；Scaffold 1/9；Contig 0/1 |
+| source_route | Ensembl Plants 86/92 通过；RefSeq paired 3/3 通过；Gramene 0/7；MaizeGDB 0/3；LegumeInfo 1/2 |
+| species | Hordeum vulgare 64/64 通过；Oryza sativa 15/19；Triticum aestivum 4/10；Zea mays 0/3 |
+| assembly_level | Chromosome 86/94 通过；Complete Genome 3/3；Scaffold 1/9；Contig 0/1 |
 | failure_class | 失败记录中 missing_seqid_or_region 12 条，length_mismatch 5 条 |
 
 ## Monitoring Configuration
