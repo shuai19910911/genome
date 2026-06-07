@@ -1,6 +1,6 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 17:19:17
+- 更新时间: 2026-06-07 17:35:23
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
@@ -32,7 +32,9 @@
 - LegumeInfo 已扫描 Arachis hypogaea、Glycine max、Phaseolus vulgaris、Vigna radiata、Cicer arietinum 5 个豆科作物目录，找到 2 个 assembly 名称候选。
 - LegumeInfo 大豆 `Glycine_max_GCA_002905335.2` / Lee 候选只有 GFF3、没有 GTF；已用 30 个 feature seqid 最大 end 坐标不越界规则验证通过并归档。
 - LegumeInfo 花生 `Arachis_hypogaea_GCA_028451205.1` / BaileyII 候选验证失败，已记录报告但没有归档。
-- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`、`docs/2026-06-07-GCA_*-gramene-*.validation.md` 和 `docs/2026-06-07-GCA_*-legumeinfo-*.validation.md`。
+- MaizeGDB 已扫描官方下载目录和 `All_gene_model_GFF/` 汇总目录，在 185 个未完整玉米条目中找到 39 个 assembly 名称候选。
+- MaizeGDB 玉米 W22、EP1、F7 三个小样本均未通过完整坐标验证；W22 主染色体可对上但 scaffold 长度不一致，EP1/F7 有大量 scaffold seqid 在本地 genome 中缺失，因此没有归档。
+- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`、`docs/2026-06-07-GCA_*-gramene-*.validation.md`、`docs/2026-06-07-GCA_*-legumeinfo-*.validation.md` 和 `docs/2026-06-07-GCA_*-maizegdb-*.validation.md`。
 - Phytozome 仍按原决定暂不下载，只记录后续可用性。
 
 ## 前期测试结论
