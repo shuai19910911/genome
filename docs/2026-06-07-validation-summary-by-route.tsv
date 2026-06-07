@@ -1,0 +1,6 @@
+source_route	total	pass	fail	unknown	pass_rate
+ensembl	84	78	6	0	0.928571
+gramene	7	0	7	0	0.000000
+maizegdb	3	0	3	0	0.000000
+refseq-paired	3	3	0	0	1.000000
+legumeinfo	2	1	1	0	0.500000
