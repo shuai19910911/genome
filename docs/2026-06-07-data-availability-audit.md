@@ -129,5 +129,5 @@
 
 - Stage: ARS Stage 1 / RESEARCH
 - Gate: 尚未进入写作；需要先完成实验设计与更多验证样本。
-- Blocking issue: 缺少统一的 validation outcome 汇总表。
-- Recommended next artifact: `docs/2026-06-07-validation-outcome-table.tsv`
+- Blocking issue: 尚未完成后续批次验证与统计建模；统一 validation outcome 汇总表已生成。
+- Produced next artifact: `docs/2026-06-07-validation-outcome-table.tsv`
