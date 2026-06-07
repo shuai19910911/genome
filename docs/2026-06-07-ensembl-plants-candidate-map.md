@@ -1,22 +1,22 @@
 # Ensembl Plants 注释候选匹配报告
 
-- 检查时间: 2026-06-07 15:18:51
+- 检查时间: 2026-06-07 18:41:56
 - Ensembl Plants FTP 根目录: `https://ftp.ebi.ac.uk/ensemblgenomes/pub/plants/current/`
 - GFF3 根目录状态: cached
 - GTF 根目录状态: cached
-- 本地 genome-only 条目数: 1708
+- 本地 genome-only 条目数: 1700
 - 本地涉及物种数: 31
-- 本次扫描物种数: 12
-- 每个物种最多扫描目录数: 25
-- Ensembl Plants 中找到同物种目录的物种数: 12
+- 本次扫描物种数: 31
+- 每个物种最多扫描目录数: 100
+- Ensembl Plants 中找到同物种目录的物种数: 28
 - 找到精确 accession 匹配的本地条目数: 0
 - 找到精确 accession 匹配的物种数: 0
 
 ## 分类统计
 
 - 精确 accession 候选目录数: 0
-- assembly 名称候选目录数: 9
-- 只有同物种候选目录数: 61
+- assembly 名称候选目录数: 60
+- 只有同物种候选目录数: 80
 
 ## 主要结论
 
@@ -37,21 +37,21 @@
 
 - Beta vulgaris / beta_vulgaris: GFF3=yes, GTF=yes, 本地未完整 326
 - Zea mays / zea_mays: GFF3=yes, GTF=yes, 本地未完整 185
-- Oryza sativa / oryza_sativa: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_arc: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_azucena: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_chaomeo: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_gobolsailbalam: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_ir64: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_ketannangka: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_khaoyaiguang: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_larhamugad: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_lima: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_liuxu: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_mh63: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_n22: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_natelboro: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_pr106: GFF3=yes, GTF=yes, 本地未完整 177
-- Oryza sativa / oryza_sativa_zs97: GFF3=yes, GTF=yes, 本地未完整 177
+- Oryza sativa / oryza_sativa: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_arc: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_azucena: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_chaomeo: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_gobolsailbalam: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_ir64: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_ketannangka: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_khaoyaiguang: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_larhamugad: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_lima: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_liuxu: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_mh63: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_n22: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_natelboro: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_pr106: GFF3=yes, GTF=yes, 本地未完整 175
+- Oryza sativa / oryza_sativa_zs97: GFF3=yes, GTF=yes, 本地未完整 175
 - Hordeum vulgare / hordeum_vulgare: GFF3=yes, GTF=yes, 本地未完整 171
 - Hordeum vulgare / hordeum_vulgare_10tj18: GFF3=yes, GTF=yes, 本地未完整 171
