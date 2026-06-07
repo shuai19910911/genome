@@ -113,6 +113,7 @@ def main() -> int:
         "- 已归档: `Triticum_aestivum_GCA_949126075.2`、`Cucumis_melo_GCA_902497455.1`、`Citrullus_lanatus_GCA_000238415.2`、`Solanum_tuberosum_GCA_014189475.1`、`Malus_domestica_GCA_002114115.1`、13 个 `Oryza sativa` assembly，以及 24 个 `Hordeum vulgare` assembly。",
         "- 最近两次新增的 14 个大麦候选的 Ensembl GTF metadata accession/genome-version 与本地 assembly 一致，并已按染色体/contig 别名和长度验证通过。",
         "- `Oryza_sativa_GCA_965117765.1` 与 `oryza_sativa_ir64`、`Malus_domestica_GCA_033882605.1` 与 `malus_domestica_golden` 注释候选验证失败，已记录报告但没有归档。",
+        "- 小麦 `Triticum_aestivum_GCA_902810645.1` / Cadenza、`GCA_902810655.1` / Claire、`GCA_902810685.1` / Robigus 三个候选验证失败，已记录报告但没有归档。",
         "- 小麦 `Triticum_aestivum_GCA_949126075.2` 的 Ensembl GTF 元数据记录 `GCA_949126075.1` / `GCA949126075v1`，与本地 `GCA_949126075.2` 版本不完全相同；已按 21 条主染色体别名和长度验证通过。",
         "- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`。",
         "- Phytozome 仍按原决定暂不下载，只记录后续可用性。",

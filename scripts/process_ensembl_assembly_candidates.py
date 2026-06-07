@@ -92,6 +92,11 @@ def single_file_annotation(row: dict[str, str]) -> bool:
     return gff3.endswith(".gff3.gz") and gtf.endswith(".gtf.gz") and not any(marker in gff3 for marker in split_markers)
 
 
+def report_prefix(accession: str, ensembl_dir: str) -> Path:
+    slug = safe_slug(ensembl_dir.replace("_", "-"))
+    return DOCS / f"2026-06-07-{accession}-ensembl-{slug}"
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--candidates", type=Path, default=DEFAULT_CANDIDATES)
@@ -113,7 +118,7 @@ def main() -> int:
             continue
         for accession in filter(None, row["assembly_name_matches"].split(";")):
             local = incomplete.get(accession)
-            if local:
+            if local and not Path(str(report_prefix(accession, row["ensembl_dir"])) + ".validation.md").exists():
                 jobs.append((local, row, accession))
 
     jobs = jobs[: args.max_count]
@@ -130,8 +135,7 @@ def main() -> int:
         gzip_ok(gff3)
         gzip_ok(gtf)
 
-        slug = safe_slug(candidate["ensembl_dir"].replace("_", "-"))
-        prefix = DOCS / f"2026-06-07-{accession}-ensembl-{slug}"
+        prefix = report_prefix(accession, candidate["ensembl_dir"])
         run(
             [
                 "python3",
