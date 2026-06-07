@@ -204,9 +204,15 @@ def main() -> int:
     unique_length_matches = 0
     length_mismatches = 0
     missing_regions = 0
-    validation_targets = region_lengths or feature_max_ends
-    used_feature_bounds = not region_lengths
+    validation_targets = dict(region_lengths)
+    feature_bound_seqids: set[str] = set()
+    for seqid, max_end in feature_max_ends.items():
+        if seqid not in validation_targets:
+            validation_targets[seqid] = max_end
+            feature_bound_seqids.add(seqid)
+    used_feature_bounds = bool(feature_bound_seqids) or not region_lengths
     for seqid, ann_length in sorted(validation_targets.items()):
+        target_uses_feature_bounds = seqid in feature_bound_seqids or not region_lengths
         local_exact = genome_lengths.get(seqid)
         normalized_candidates: list[tuple[str, int]] = []
         seen_candidates: set[tuple[str, int]] = set()
@@ -216,25 +222,25 @@ def main() -> int:
                     normalized_candidates.append(item)
                     seen_candidates.add(item)
         unique_length_ids = length_to_seqids.get(ann_length, [])
-        if used_feature_bounds and local_exact is not None and local_exact >= ann_length:
+        if target_uses_feature_bounds and local_exact is not None and local_exact >= ann_length:
             status = "exact_seqid_feature_within_length"
             exact_matches += 1
             local_id = seqid
             local_length = local_exact
-        elif not used_feature_bounds and local_exact == ann_length:
+        elif not target_uses_feature_bounds and local_exact == ann_length:
             status = "exact_seqid_and_length"
             exact_matches += 1
             local_id = seqid
             local_length = local_exact
-        elif used_feature_bounds and any(length >= ann_length for _, length in normalized_candidates):
+        elif target_uses_feature_bounds and any(length >= ann_length for _, length in normalized_candidates):
             status = "normalized_seqid_feature_within_length"
             normalized_matches += 1
             local_id, local_length = next((item for item in normalized_candidates if item[1] >= ann_length))
-        elif not used_feature_bounds and any(length == ann_length for _, length in normalized_candidates):
+        elif not target_uses_feature_bounds and any(length == ann_length for _, length in normalized_candidates):
             status = "normalized_seqid_and_length"
             normalized_matches += 1
             local_id, local_length = next((item for item in normalized_candidates if item[1] == ann_length))
-        elif not used_feature_bounds and len(unique_length_ids) == 1:
+        elif not target_uses_feature_bounds and len(unique_length_ids) == 1:
             status = "unique_length_match"
             unique_length_matches += 1
             local_id = unique_length_ids[0]
@@ -259,7 +265,7 @@ def main() -> int:
             }
         )
 
-    covered_seqids = len(gff_seqids & set(region_lengths)) if region_lengths else len(feature_max_ends)
+    covered_seqids = len(gff_seqids & set(validation_targets))
     pass_validation = (
         len(validation_targets) > 0
         and missing_regions == 0

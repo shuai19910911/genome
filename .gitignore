@@ -44,6 +44,8 @@ legumeinfo_cache/
 legumeinfo_validation/
 maizegdb_cache/
 maizegdb_validation/
+ncbi_summary_cache/
+refseq_paired_validation/
 
 # 坐标验证明细可能非常大；GitHub 只提交简短 Markdown 报告
 docs/*seqid-validation.tsv

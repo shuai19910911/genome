@@ -1,19 +1,19 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 17:35:23
+- 更新时间: 2026-06-07 17:50:13
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
-- 已生成 README 的完成目录数: 198
-- 本地数据总量: 902749012981 bytes (840.75 GiB)
+- 已生成 README 的完成目录数: 201
+- 本地数据总量: 902825959615 bytes (840.82 GiB)
 - 下载管理进程数: 0
 - aria2 活动下载数: 0
 - 最近速度: 0.00 MiB/s
 
 ## 当前分类结果
 
-- 有 genome 和至少一种注释的目录: 203
-- 只有 genome、缺少 GFF3/GTF 注释的目录: 1703
+- 有 genome 和至少一种注释的目录: 206
+- 只有 genome、缺少 GFF3/GTF 注释的目录: 1700
 - 完整索引: `docs/completed-genome-index.tsv`
 - 未完整索引: `docs/incomplete-genome-index.tsv`
 
@@ -34,7 +34,9 @@
 - LegumeInfo 花生 `Arachis_hypogaea_GCA_028451205.1` / BaileyII 候选验证失败，已记录报告但没有归档。
 - MaizeGDB 已扫描官方下载目录和 `All_gene_model_GFF/` 汇总目录，在 185 个未完整玉米条目中找到 39 个 assembly 名称候选。
 - MaizeGDB 玉米 W22、EP1、F7 三个小样本均未通过完整坐标验证；W22 主染色体可对上但 scaffold 长度不一致，EP1/F7 有大量 scaffold seqid 在本地 genome 中缺失，因此没有归档。
-- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`、`docs/2026-06-07-GCA_*-gramene-*.validation.md`、`docs/2026-06-07-GCA_*-legumeinfo-*.validation.md` 和 `docs/2026-06-07-GCA_*-maizegdb-*.validation.md`。
+- NCBI GenBank assembly_summary 的 `gbrs_paired_asm` 字段在 1703 个未完整条目中找到 9 个 GCA->GCF 配对，其中 3 个 RefSeq GCF 端有 GFF3/GTF。
+- RefSeq paired 路线已验证并归档 `Malus_domestica_GCA_042453785.1`、`Oryza_sativa_GCA_034140825.1`、`Solanum_lycopersicum_GCA_036512215.2` 三个候选；虽然 NCBI 记录 `paired_asm_comp=different`，但三者均按 seqid/长度验证通过。
+- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`、`docs/2026-06-07-GCA_*-gramene-*.validation.md`、`docs/2026-06-07-GCA_*-legumeinfo-*.validation.md`、`docs/2026-06-07-GCA_*-maizegdb-*.validation.md` 和 `docs/2026-06-07-GCA_*-refseq-paired-*.validation.md`。
 - Phytozome 仍按原决定暂不下载，只记录后续可用性。
 
 ## 前期测试结论

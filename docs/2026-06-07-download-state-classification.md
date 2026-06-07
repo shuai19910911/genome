@@ -1,21 +1,21 @@
 # 作物基因组下载状态分类
 
-- 检查时间: 2026-06-07 16:58:48
+- 检查时间: 2026-06-07 17:49:08
 - 计划条目: 1906
 - 完成清单条目: 149
 - 失败清单条目: 1755
 - 实际 assembly 目录: 1906
-- 完整或基本完整目录: 203
-- 未完整目录: 1703
-- 未完整但已有 genome 文件的目录: 1703
+- 完整或基本完整目录: 206
+- 未完整目录: 1700
+- 未完整但已有 genome 文件的目录: 1700
 - 未完整且没有 genome 文件的目录: 0
-- 本地目录总大小: 902749012981 bytes (840.75 GiB)
+- 本地目录总大小: 902825959615 bytes (840.82 GiB)
 
 ## 分类结果
 
-- 只有基因组：缺少 GFF3/GTF 注释: 1703
+- 只有基因组：缺少 GFF3/GTF 注释: 1700
 - 完整：清单、文件、中文 README 都存在: 149
-- 基本完整：文件存在，但清单或 README 需要复核: 54
+- 基本完整：文件存在，但清单或 README 需要复核: 57
 
 ## 生成的索引
 
@@ -32,9 +32,9 @@
 
 ## 完整目录物种 Top 20
 
-- Malus domestica: 41
+- Malus domestica: 42
 - Hordeum vulgare: 31
-- Oryza sativa: 22
+- Oryza sativa: 23
 - Triticum aestivum: 17
 - Glycine max: 10
 - Arachis hypogaea: 9
@@ -49,15 +49,15 @@
 - Zea mays: 4
 - Daucus carota: 3
 - Gossypium hirsutum: 3
+- Solanum lycopersicum: 3
 - Vitis vinifera: 3
 - Beta vulgaris: 2
-- Phaseolus vulgaris: 2
 
 ## 未完整目录物种 Top 20
 
 - Beta vulgaris: 326
 - Zea mays: 185
-- Oryza sativa: 176
+- Oryza sativa: 175
 - Hordeum vulgare: 171
 - Citrullus lanatus: 117
 - Brassica napus: 107
@@ -66,8 +66,8 @@
 - Triticum aestivum: 56
 - Cucumis sativus: 44
 - Cucumis melo: 39
-- Malus domestica: 39
-- Solanum lycopersicum: 37
+- Malus domestica: 38
+- Solanum lycopersicum: 36
 - Glycine max: 32
 - Brassica oleracea: 28
 - Manihot esculenta: 22
