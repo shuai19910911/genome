@@ -1,6 +1,6 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 15:57:58
+- 更新时间: 2026-06-07 16:20:55
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
@@ -27,8 +27,8 @@
 - 小麦 `Triticum_aestivum_GCA_902810645.1` / Cadenza、`GCA_902810655.1` / Claire、`GCA_902810685.1` / Robigus 三个候选验证失败，已记录报告但没有归档。
 - 小麦 `Triticum_aestivum_GCA_949126075.2` 的 Ensembl GTF 元数据记录 `GCA_949126075.1` / `GCA949126075v1`，与本地 `GCA_949126075.2` 版本不完全相同；已按 21 条主染色体别名和长度验证通过。
 - 小麦 `Triticum_aestivum_GCA_910594105.1` / Kariega、`GCA_920937835.1` / Renan、`GCA_937894285.1` / Renan 均已用 Ensembl 完整 GFF3/GTF 验证通过并归档。
-- Gramene release-61 已完成小范围候选扫描，前 8 个高缺口物种中发现 31 个同物种候选、2 个 assembly 名称候选、0 个 accession 精确候选。
-- Gramene `Oryza_sativa_GCA_965117765.1` / IR64 和 `Oryza_sativa_GCA_001623365.2` / MH63 候选验证失败，已记录报告但没有归档。
+- Gramene release-61 已完成扩展候选扫描，前 16 个高缺口物种中发现 69 个同物种候选、7 个 assembly 名称候选、0 个 accession 精确候选。
+- Gramene `Oryza_sativa_GCA_965117765.1` / IR64、`Oryza_sativa_GCA_001623365.2` / MH63、`Malus_domestica_GCA_033882605.1` / Golden、`Solanum_lycopersicum_GCA_927333815.3` / SL3.0，以及小麦 Cadenza/Claire/Robigus 候选验证失败，已记录报告但没有归档。
 - 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md` 和 `docs/2026-06-07-GCA_*-gramene-*.validation.md`。
 - Phytozome 仍按原决定暂不下载，只记录后续可用性。
 
