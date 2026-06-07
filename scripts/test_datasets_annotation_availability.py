@@ -13,9 +13,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+LOCAL_REPORTS = ROOT / "local_reports"
 DEFAULT_INPUT = ROOT / "datasets_recovery_test" / "sample_incomplete_accessions.tsv"
-DEFAULT_TSV = ROOT / "docs" / "2026-06-07-datasets-annotation-test.tsv"
-DEFAULT_MD = ROOT / "docs" / "2026-06-07-datasets-annotation-test.md"
+DEFAULT_TSV = LOCAL_REPORTS / "2026-06-07-datasets-annotation-test.tsv"
+DEFAULT_MD = LOCAL_REPORTS / "2026-06-07-datasets-annotation-test.md"
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:

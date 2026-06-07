@@ -17,11 +17,12 @@ from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://ftp.ebi.ac.uk/ensemblgenomes/pub/plants/current/"
-DEFAULT_INPUT = ROOT / "docs" / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+DEFAULT_INPUT = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 DEFAULT_CACHE = ROOT / "ensembl_plants_cache"
-DEFAULT_EXACT = ROOT / "docs" / "2026-06-07-ensembl-plants-exact-matches.tsv"
-DEFAULT_SPECIES = ROOT / "docs" / "2026-06-07-ensembl-plants-species-candidates.tsv"
-DEFAULT_MD = ROOT / "docs" / "2026-06-07-ensembl-plants-candidate-map.md"
+DEFAULT_EXACT = LOCAL_REPORTS / "2026-06-07-ensembl-plants-exact-matches.tsv"
+DEFAULT_SPECIES = LOCAL_REPORTS / "2026-06-07-ensembl-plants-species-candidates.tsv"
+DEFAULT_MD = LOCAL_REPORTS / "2026-06-07-ensembl-plants-candidate-map.md"
 ACCESSION_RE = re.compile(r"(GC[AF])[_-]?(\d{3})[_-]?(\d{3})[_-]?(\d{3})(?:\.(\d+))?", re.I)
 
 

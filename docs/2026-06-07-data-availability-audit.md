@@ -9,12 +9,12 @@
 - workflow_stage: ARS Stage 1 / RESEARCH
 - source_workspace: `/home/user/zhangzhishuai/data/plantDB/genome`
 - primary_inputs:
-  - `docs/completed-genome-index.tsv`
-  - `docs/incomplete-genome-index.tsv`
+  - `local_reports/completed-genome-index.tsv`
+  - `local_reports/incomplete-genome-index.tsv`
   - `docs/current-download-status.md`
-  - `docs/2026-06-07-GCA_*.validation.md`
-  - `docs/2026-06-07-ensembl-plants-candidate-map.md`
-  - `docs/2026-06-07-ensembl-plants-species-candidates.tsv`
+  - `validation_reports/2026-06-07-GCA_*.validation.md`
+  - `local_reports/2026-06-07-ensembl-plants-candidate-map.md`
+  - `local_reports/2026-06-07-ensembl-plants-species-candidates.tsv`
 - verification_status: ANALYZED
 - integrity_scope: local file existence, local index classification, external annotation coordinate validation reports
 - downstream_use: experiment planning, research question refinement, paper pipeline intake
@@ -30,12 +30,12 @@
 | 指标 | 数值 | 证据来源 |
 |---|---:|---|
 | assembly 目录总数 | 1906 | `docs/current-download-status.md` |
-| genome+注释完整目录 | 254 | `docs/completed-genome-index.tsv` |
-| 只有 genome、缺少 GFF3/GTF | 1652 | `docs/incomplete-genome-index.tsv` |
+| genome+注释完整目录 | 254 | `local_reports/completed-genome-index.tsv` |
+| 只有 genome、缺少 GFF3/GTF | 1652 | `local_reports/incomplete-genome-index.tsv` |
 | 本地数据总量 | 903365117479 bytes / 841.32 GiB | `docs/current-download-status.md` |
 | 已生成英文和中文 README 的完整目录 | 233 | `docs/current-download-status.md` |
-| 同时具有 GFF3 和 GTF 的完整目录 | 232 | `docs/completed-genome-index.tsv` |
-| 只有 GFF3、没有 GTF 的完整目录 | 6 | `docs/completed-genome-index.tsv` |
+| 同时具有 GFF3 和 GTF 的完整目录 | 232 | `local_reports/completed-genome-index.tsv` |
+| 只有 GFF3、没有 GTF 的完整目录 | 6 | `local_reports/completed-genome-index.tsv` |
 
 ## 完整目录的物种分布
 
@@ -130,4 +130,4 @@
 - Stage: ARS Stage 1 / RESEARCH
 - Gate: 尚未进入写作；需要先完成实验设计与更多验证样本。
 - Blocking issue: 尚未完成后续批次验证与统计建模；统一 validation outcome 汇总表已生成。
-- Produced next artifact: `docs/2026-06-07-validation-outcome-table.tsv`
+- Produced next artifact: `local_reports/2026-06-07-validation-outcome-table.tsv`

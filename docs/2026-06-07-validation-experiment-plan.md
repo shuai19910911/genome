@@ -9,7 +9,7 @@
 - Version Label: code_plan_v1
 - Upstream Dependencies:
   - `research_v1`: `docs/2026-06-07-data-availability-audit.md`
-  - `validation_outcome_v1`: `docs/2026-06-07-validation-outcome-table.tsv`
+  - `validation_outcome_v1`: `local_reports/2026-06-07-validation-outcome-table.tsv`
 
 ## Experiment Overview
 
@@ -51,19 +51,19 @@
 
 | Input | Path | Description |
 |---|---|---|
-| validation outcome 表 | `docs/2026-06-07-validation-outcome-table.tsv` | 115 条外部注释候选验证记录 |
+| validation outcome 表 | `local_reports/2026-06-07-validation-outcome-table.tsv` | 115 条外部注释候选验证记录 |
 | 数据可用性审计 | `docs/2026-06-07-data-availability-audit.md` | Stage 1 研究审计与候选 RQ |
-| 完整索引 | `docs/completed-genome-index.tsv` | 已有 genome+annotation 的本地目录 |
-| 未完整索引 | `docs/incomplete-genome-index.tsv` | 只有 genome、缺少 GFF3/GTF 的本地目录 |
+| 完整索引 | `local_reports/completed-genome-index.tsv` | 已有 genome+annotation 的本地目录 |
+| 未完整索引 | `local_reports/incomplete-genome-index.tsv` | 只有 genome、缺少 GFF3/GTF 的本地目录 |
 
 ## Expected Outputs
 
 | Output | Path | Format | Success Criterion |
 |---|---|---|---|
-| route 汇总 | `docs/2026-06-07-validation-summary-by-route.tsv` | TSV | route 总数之和等于 outcome 表记录数 |
-| species 汇总 | `docs/2026-06-07-validation-summary-by-species.tsv` | TSV | 每个 species 的 pass/fail 数可追溯到 outcome 表 |
-| assembly level 汇总 | `docs/2026-06-07-validation-summary-by-assembly-level.tsv` | TSV | assembly level 总数之和等于 outcome 表记录数 |
-| failure class 汇总 | `docs/2026-06-07-validation-summary-by-failure-class.tsv` | TSV | fail 记录应分配到 missing_seqid_or_region 或 length_mismatch 等类别 |
+| route 汇总 | `local_reports/2026-06-07-validation-summary-by-route.tsv` | TSV | route 总数之和等于 outcome 表记录数 |
+| species 汇总 | `local_reports/2026-06-07-validation-summary-by-species.tsv` | TSV | 每个 species 的 pass/fail 数可追溯到 outcome 表 |
+| assembly level 汇总 | `local_reports/2026-06-07-validation-summary-by-assembly-level.tsv` | TSV | assembly level 总数之和等于 outcome 表记录数 |
+| failure class 汇总 | `local_reports/2026-06-07-validation-summary-by-failure-class.tsv` | TSV | fail 记录应分配到 missing_seqid_or_region 或 length_mismatch 等类别 |
 
 ## Current Baseline Results
 
@@ -78,12 +78,12 @@
 
 - **Timeout**: 5 分钟
 - **Monitor files**:
-  - `docs/2026-06-07-validation-summary-by-route.tsv`
-  - `docs/2026-06-07-validation-summary-by-species.tsv`
-  - `docs/2026-06-07-validation-summary-by-assembly-level.tsv`
-  - `docs/2026-06-07-validation-summary-by-failure-class.tsv`
+  - `local_reports/2026-06-07-validation-summary-by-route.tsv`
+  - `local_reports/2026-06-07-validation-summary-by-species.tsv`
+  - `local_reports/2026-06-07-validation-summary-by-assembly-level.tsv`
+  - `local_reports/2026-06-07-validation-summary-by-failure-class.tsv`
 - **Experiment type override**: analysis
-- **Metric file**: `docs/2026-06-07-validation-summary-by-route.tsv`
+- **Metric file**: `local_reports/2026-06-07-validation-summary-by-route.tsv`
 - **Metric key**: `pass_rate`
 
 ## Analysis Plan
@@ -111,7 +111,7 @@
 ## Reproducibility Notes
 
 - 当前计划只依赖本地 TSV 和 Python 标准库。
-- 所有结论必须回溯到 `docs/2026-06-07-validation-outcome-table.tsv` 和单个 `docs/2026-06-07-GCA_*.validation.md` 报告。
+- 所有结论必须回溯到 `local_reports/2026-06-07-validation-outcome-table.tsv` 和单个 `validation_reports/2026-06-07-GCA_*.validation.md` 报告。
 - 后续每新增一批验证报告，应重新生成 outcome 表，再运行 `scripts/summarize_validation_outcomes.py`。
 
 ## Gate Decision

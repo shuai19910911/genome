@@ -13,11 +13,11 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "docs"
-DEFAULT_INPUT = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+DEFAULT_INPUT = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 DEFAULT_CACHE = ROOT / "ncbi_summary_cache"
-DEFAULT_OUTPUT = DOCS / "2026-06-07-refseq-paired-annotation-candidates.tsv"
-DEFAULT_MD = DOCS / "2026-06-07-refseq-paired-annotation-candidate-map.md"
+DEFAULT_OUTPUT = LOCAL_REPORTS / "2026-06-07-refseq-paired-annotation-candidates.tsv"
+DEFAULT_MD = LOCAL_REPORTS / "2026-06-07-refseq-paired-annotation-candidate-map.md"
 GENBANK_SUMMARY = "https://ftp.ncbi.nlm.nih.gov/genomes/genbank/plant/assembly_summary.txt"
 REFSEQ_SUMMARY = "https://ftp.ncbi.nlm.nih.gov/genomes/refseq/plant/assembly_summary.txt"
 

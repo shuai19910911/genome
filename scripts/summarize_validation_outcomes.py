@@ -9,8 +9,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-INPUT = ROOT / "docs" / "2026-06-07-validation-outcome-table.tsv"
-OUT_DIR = ROOT / "docs"
+LOCAL_REPORTS = ROOT / "local_reports"
+INPUT = LOCAL_REPORTS / "2026-06-07-validation-outcome-table.tsv"
+OUT_DIR = LOCAL_REPORTS
 
 
 def read_rows(path: Path) -> list[dict[str, str]]:

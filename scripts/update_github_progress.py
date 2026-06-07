@@ -14,8 +14,9 @@ ROOT = Path(__file__).resolve().parents[1]
 OUT = ROOT / "docs" / "current-download-status.md"
 STATE = ROOT / "download.monitor.state.json"
 MONITOR_LOG = ROOT / "download.monitor.log"
-COMPLETE_INDEX = ROOT / "docs" / "completed-genome-index.tsv"
-INCOMPLETE_INDEX = ROOT / "docs" / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+COMPLETE_INDEX = LOCAL_REPORTS / "completed-genome-index.tsv"
+INCOMPLETE_INDEX = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 
 
 def count_data_rows(path: Path) -> int:
@@ -109,8 +110,8 @@ def main() -> int:
         "",
         item(f"有 genome 和至少一种注释的目录: {complete_index_rows}"),
         item(f"只有 genome、缺少 GFF3/GTF 注释的目录: {incomplete_index_rows}"),
-        item(f"完整索引: `{COMPLETE_INDEX.relative_to(ROOT)}`"),
-        item(f"未完整索引: `{INCOMPLETE_INDEX.relative_to(ROOT)}`"),
+        item(f"完整索引保留本地: `{COMPLETE_INDEX.relative_to(ROOT)}`"),
+        item(f"未完整索引保留本地: `{INCOMPLETE_INDEX.relative_to(ROOT)}`"),
         "",
         "## 外部注释补充",
         "",
@@ -132,7 +133,7 @@ def main() -> int:
         item("MaizeGDB 玉米 W22、EP1、F7 三个小样本均未通过完整坐标验证；W22 主染色体可对上但 scaffold 长度不一致，EP1/F7 有大量 scaffold seqid 在本地 genome 中缺失，因此没有归档。"),
         item("NCBI GenBank assembly_summary 的 `gbrs_paired_asm` 字段在 1703 个未完整条目中找到 9 个 GCA->GCF 配对，其中 3 个 RefSeq GCF 端有 GFF3/GTF。"),
         item("RefSeq paired 路线已验证并归档 `Malus_domestica_GCA_042453785.1`、`Oryza_sativa_GCA_034140825.1`、`Solanum_lycopersicum_GCA_036512215.2` 三个候选；虽然 NCBI 记录 `paired_asm_comp=different`，但三者均按 seqid/长度验证通过。"),
-        item("单条验证报告保留在本地 `validation_reports/`，不再上传 GitHub；GitHub 只保留 outcome/summary 表和关键进展文档。"),
+        item("单条验证报告和中间候选/索引/统计表保留在本地 `validation_reports/` 与 `local_reports/`，不再上传 GitHub；GitHub 只保留关键进展文档。"),
         item("Phytozome 仍按原决定暂不下载，只记录后续可用性。"),
         "",
         "## 前期测试结论",
@@ -166,7 +167,7 @@ def main() -> int:
             item("最新分类显示，未完整目录不是空目录，均已经有 genome 文件；当前主要缺口是 GFF3/GTF 注释。"),
             item("Datasets 小样本测试没有解决这些 GCA 注释缺口；下一步应优先按物种进入 Ensembl Plants 和作物专项数据库路线。"),
             item("没有 README 的目录多为注释缺失失败后留下的未完成目录，后续应优先补注释或统一生成失败说明。"),
-            item("大文件和运行日志不提交到 GitHub；GitHub 只记录脚本、清单和进度文档。"),
+            item("大文件、运行日志和中间数据表不提交到 GitHub；GitHub 只记录脚本和关键进展文档。"),
             "",
         ]
     )

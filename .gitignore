@@ -47,7 +47,14 @@ maizegdb_validation/
 ncbi_summary_cache/
 refseq_paired_validation/
 validation_reports/
+local_reports/
 
-# 单条验证报告和坐标明细保留本地；GitHub 只提交关键进展、索引和汇总表
+# 单条验证报告、中间候选表、索引和坐标明细保留本地；GitHub 只提交关键进展文档
 docs/*validation.md
 docs/*seqid-validation.tsv
+docs/*.tsv
+docs/*candidate*.md
+docs/*classification.md
+docs/*annotation-test.md
+docs/*planned-downloads-summary.md
+docs/*download-final-summary.md

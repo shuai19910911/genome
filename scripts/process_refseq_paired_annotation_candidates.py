@@ -13,9 +13,9 @@ from urllib.parse import urlparse
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "docs"
-DEFAULT_CANDIDATES = DOCS / "2026-06-07-refseq-paired-annotation-candidates.tsv"
-DEFAULT_INCOMPLETE = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+DEFAULT_CANDIDATES = LOCAL_REPORTS / "2026-06-07-refseq-paired-annotation-candidates.tsv"
+DEFAULT_INCOMPLETE = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 VALIDATION_DIR = ROOT / "refseq_paired_validation"
 REPORT_DIR = ROOT / "validation_reports"
 

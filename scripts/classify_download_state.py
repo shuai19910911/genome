@@ -12,9 +12,10 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
-SUMMARY = DOCS / "2026-06-07-download-state-classification.md"
-COMPLETE_INDEX = DOCS / "completed-genome-index.tsv"
-INCOMPLETE_INDEX = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+SUMMARY = LOCAL_REPORTS / "2026-06-07-download-state-classification.md"
+COMPLETE_INDEX = LOCAL_REPORTS / "completed-genome-index.tsv"
+INCOMPLETE_INDEX = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 ACCESSION_RE = re.compile(r"(GC[AF]_\d+\.\d+)")
 
 
@@ -235,8 +236,8 @@ def main() -> int:
             "",
             "## 下一步建议",
             "",
-            "1. 保留 `completed-genome-index.tsv` 作为当前可直接使用的数据索引。",
-            "2. 对 `incomplete-genome-index.tsv` 中“只有基因组”的条目，优先从 NCBI Datasets、Ensembl Plants 和作物专项数据库补注释。",
+            "1. 保留本地 `local_reports/completed-genome-index.tsv` 作为当前可直接使用的数据索引。",
+            "2. 对本地 `local_reports/incomplete-genome-index.tsv` 中“只有基因组”的条目，优先从 NCBI Datasets、Ensembl Plants 和作物专项数据库补注释。",
             "3. 对“空目录或仅元数据”的条目，后续如果不再补源，可以统一清理，但清理前应先按索引确认。",
             "4. Phytozome 仍按原决定暂不下载，只在计划清单和报告中保留说明。",
             "",

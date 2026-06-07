@@ -15,11 +15,11 @@ from urllib.parse import urljoin
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "docs"
-DEFAULT_INPUT = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+DEFAULT_INPUT = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 DEFAULT_CACHE = ROOT / "maizegdb_cache"
-DEFAULT_OUTPUT = DOCS / "2026-06-07-maizegdb-candidates.tsv"
-DEFAULT_MD = DOCS / "2026-06-07-maizegdb-candidate-map.md"
+DEFAULT_OUTPUT = LOCAL_REPORTS / "2026-06-07-maizegdb-candidates.tsv"
+DEFAULT_MD = LOCAL_REPORTS / "2026-06-07-maizegdb-candidate-map.md"
 BASE = "https://download.maizegdb.org/"
 GFF_DIR = "All_gene_model_GFF/"
 

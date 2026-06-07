@@ -14,11 +14,11 @@ from urllib.parse import urljoin
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "docs"
-DEFAULT_INPUT = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+DEFAULT_INPUT = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 DEFAULT_CACHE = ROOT / "legumeinfo_cache"
-DEFAULT_OUTPUT = DOCS / "2026-06-07-legumeinfo-candidates.tsv"
-DEFAULT_MD = DOCS / "2026-06-07-legumeinfo-candidate-map.md"
+DEFAULT_OUTPUT = LOCAL_REPORTS / "2026-06-07-legumeinfo-candidates.tsv"
+DEFAULT_MD = LOCAL_REPORTS / "2026-06-07-legumeinfo-candidate-map.md"
 BASE = "https://data.legumeinfo.org/"
 
 SPECIES_PATHS = {

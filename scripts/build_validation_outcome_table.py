@@ -10,10 +10,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
+LOCAL_REPORTS = ROOT / "local_reports"
 REPORT_DIR = ROOT / "validation_reports"
-COMPLETE_INDEX = DOCS / "completed-genome-index.tsv"
-INCOMPLETE_INDEX = DOCS / "incomplete-genome-index.tsv"
-OUT = DOCS / "2026-06-07-validation-outcome-table.tsv"
+COMPLETE_INDEX = LOCAL_REPORTS / "completed-genome-index.tsv"
+INCOMPLETE_INDEX = LOCAL_REPORTS / "incomplete-genome-index.tsv"
+OUT = LOCAL_REPORTS / "2026-06-07-validation-outcome-table.tsv"
 
 ROUTES = ["refseq-paired", "legumeinfo", "maizegdb", "ensembl", "gramene"]
 FIELDS = [

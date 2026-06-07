@@ -8,9 +8,9 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DOCS = ROOT / "docs"
-CANDIDATES = DOCS / "2026-06-07-ensembl-plants-species-candidates.tsv"
-INCOMPLETE = DOCS / "incomplete-genome-index.tsv"
+LOCAL_REPORTS = ROOT / "local_reports"
+CANDIDATES = LOCAL_REPORTS / "2026-06-07-ensembl-plants-species-candidates.tsv"
+INCOMPLETE = LOCAL_REPORTS / "incomplete-genome-index.tsv"
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:

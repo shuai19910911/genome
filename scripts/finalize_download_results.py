@@ -10,7 +10,8 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SUMMARY = ROOT / "docs" / "2026-06-06-download-final-summary.md"
+LOCAL_REPORTS = ROOT / "local_reports"
+SUMMARY = LOCAL_REPORTS / "2026-06-06-download-final-summary.md"
 
 
 def read_tsv(path: Path) -> tuple[list[str], list[dict[str, str]]]:
