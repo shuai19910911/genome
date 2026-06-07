@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import json
 import subprocess
+import csv
 from datetime import datetime
 from pathlib import Path
 
@@ -22,6 +23,21 @@ def count_data_rows(path: Path) -> int:
         return 0
     with path.open() as handle:
         return max(0, sum(1 for _ in handle) - 1)
+
+
+def sum_index_bytes(paths: list[Path]) -> int:
+    total = 0
+    for path in paths:
+        if not path.exists():
+            continue
+        with path.open(newline="") as handle:
+            reader = csv.DictReader(handle, delimiter="\t")
+            for row in reader:
+                try:
+                    total += int(row.get("directory_size_bytes", "") or 0)
+                except ValueError:
+                    continue
+    return total
 
 
 def command_lines(pattern: str) -> list[str]:
@@ -66,7 +82,8 @@ def main() -> int:
     aria2 = command_lines("aria2c")
     managers = command_lines("download_from_manifest")
     state = load_state()
-    total_bytes = int(state.get("downloaded_bytes", 0) or 0)
+    indexed_bytes = sum_index_bytes([COMPLETE_INDEX, INCOMPLETE_INDEX])
+    total_bytes = indexed_bytes or int(state.get("downloaded_bytes", 0) or 0)
 
     speed_line = latest_speed_line()
 
@@ -90,6 +107,20 @@ def main() -> int:
         f"- 完整索引: `{COMPLETE_INDEX.relative_to(ROOT)}`",
         f"- 未完整索引: `{INCOMPLETE_INDEX.relative_to(ROOT)}`",
         "",
+        "## 外部注释补充",
+        "",
+        "- 本次已将 Ensembl Plants 的 `triticum_aestivum_paragon` GFF3/GTF 归档到 `Triticum_aestivum_GCA_949126075.2`。",
+        "- 该条目本地 genome 是 NCBI GenBank `GCA_949126075.2`，Ensembl GTF 元数据记录 `GCA_949126075.1` / `GCA949126075v1`；已按 21 条主染色体别名和长度验证通过。",
+        "- 详细验证报告: `docs/2026-06-07-GCA_949126075.2-ensembl-paragon.validation.md`。",
+        "- Phytozome 仍按原决定暂不下载，只记录后续可用性。",
+        "",
+        "## 前期测试结论",
+        "",
+        "- 已在 `genome_down` 环境安装 `ncbi-datasets-cli`，版本为 18.29.1。",
+        "- 抽样测试 10 个 genome-only 的 GenBank (`GCA`) accession，没有从 Datasets 补到 GFF3/GTF；请求 `--include gff3` 或 `--include gtf` 时 CLI 会崩溃。",
+        "- Ensembl Plants 候选扫描覆盖失败最多的前 12 个物种，发现 70 个同物种候选目录，其中 1 个 accession 级候选已经完成上面的坐标验证和归档。",
+        "- 同物种候选不能直接混用，必须继续按 assembly、品种名、染色体名和长度做验证。",
+        "",
         "## 各 shard 进展",
         "",
     ]
@@ -112,6 +143,7 @@ def main() -> int:
             "",
             "- 失败记录主要来自 NCBI GenBank (`GCA`) 条目缺少 GFF/GTF 注释文件，脚本会快速跳过并记录失败。",
             "- 最新分类显示，未完整目录不是空目录，均已经有 genome 文件；当前主要缺口是 GFF3/GTF 注释。",
+            "- Datasets 小样本测试没有解决这些 GCA 注释缺口；下一步应优先按物种进入 Ensembl Plants 和作物专项数据库路线。",
             "- 没有 README 的目录多为注释缺失失败后留下的未完成目录，后续应优先补注释或统一生成失败说明。",
             "- 大文件和运行日志不提交到 GitHub；GitHub 只记录脚本、清单和进度文档。",
             "",

@@ -38,3 +38,4 @@ download.github_update.log
 download.github_update.pid
 datasets_recovery_test/
 ensembl_plants_cache/
+ensembl_validation/
