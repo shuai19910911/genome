@@ -10,6 +10,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 DOCS = ROOT / "docs"
+REPORT_DIR = ROOT / "validation_reports"
 COMPLETE_INDEX = DOCS / "completed-genome-index.tsv"
 INCOMPLETE_INDEX = DOCS / "incomplete-genome-index.tsv"
 OUT = DOCS / "2026-06-07-validation-outcome-table.tsv"
@@ -82,7 +83,10 @@ def build_rows() -> list[dict[str, str]]:
     index_rows = read_index(COMPLETE_INDEX) + read_index(INCOMPLETE_INDEX)
     index = {row["assembly_accession"]: row for row in index_rows}
     rows = []
-    for report in sorted(DOCS.glob("2026-06-07-GCA_*.validation.md")):
+    report_paths = list(REPORT_DIR.glob("2026-06-07-GCA_*.validation.md"))
+    # Backward-compatible local fallback while old reports are being migrated.
+    report_paths.extend(DOCS.glob("2026-06-07-GCA_*.validation.md"))
+    for report in sorted(set(report_paths)):
         text = report.read_text(errors="replace")
         accession = value(r"^- accession:\s*(.+)$", text)
         indexed = index.get(accession, {})

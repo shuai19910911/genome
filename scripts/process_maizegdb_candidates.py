@@ -17,6 +17,7 @@ DOCS = ROOT / "docs"
 DEFAULT_CANDIDATES = DOCS / "2026-06-07-maizegdb-candidates.tsv"
 DEFAULT_INCOMPLETE = DOCS / "incomplete-genome-index.tsv"
 VALIDATION_DIR = ROOT / "maizegdb_validation"
+REPORT_DIR = ROOT / "validation_reports"
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -80,7 +81,7 @@ def validation_summary(path: Path) -> str:
 
 def report_prefix(accession: str, maizegdb_dir: str) -> Path:
     slug = safe_slug(maizegdb_dir.replace("_", "-"))
-    return DOCS / f"2026-06-07-{accession}-maizegdb-{slug}"
+    return REPORT_DIR / f"2026-06-07-{accession}-maizegdb-{slug}"
 
 
 def source_dir(url: str) -> str:
@@ -124,6 +125,7 @@ def main() -> int:
         gzip_ok(gff3)
 
         prefix = report_prefix(accession, candidate["maizegdb_dir"])
+        prefix.parent.mkdir(parents=True, exist_ok=True)
         run(
             [
                 "python3",

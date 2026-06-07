@@ -1,5 +1,5 @@
 assembly_level	total	pass	fail	unknown	pass_rate
-Chromosome	94	86	8	0	0.914894
+Chromosome	102	94	8	0	0.921569
 Scaffold	9	1	8	0	0.111111
 Complete Genome	3	3	0	0	1.000000
 Contig	1	0	1	0	0.000000

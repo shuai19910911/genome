@@ -17,6 +17,7 @@ DOCS = ROOT / "docs"
 DEFAULT_CANDIDATES = DOCS / "2026-06-07-refseq-paired-annotation-candidates.tsv"
 DEFAULT_INCOMPLETE = DOCS / "incomplete-genome-index.tsv"
 VALIDATION_DIR = ROOT / "refseq_paired_validation"
+REPORT_DIR = ROOT / "validation_reports"
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -80,7 +81,7 @@ def validation_summary(path: Path) -> str:
 
 def report_prefix(accession: str, paired_refseq: str) -> Path:
     slug = safe_slug(paired_refseq)
-    return DOCS / f"2026-06-07-{accession}-refseq-paired-{slug}"
+    return REPORT_DIR / f"2026-06-07-{accession}-refseq-paired-{slug}"
 
 
 def source_dir(url: str) -> str:
@@ -126,6 +127,7 @@ def main() -> int:
             gzip_ok(gtf)
 
         prefix = report_prefix(accession, paired_refseq)
+        prefix.parent.mkdir(parents=True, exist_ok=True)
         validate_cmd = [
             "python3",
             "scripts/validate_annotation_candidate.py",

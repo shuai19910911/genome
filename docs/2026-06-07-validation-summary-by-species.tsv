@@ -1,5 +1,5 @@
 species	total	pass	fail	unknown	pass_rate
-Hordeum vulgare	64	64	0	0	1.000000
+Hordeum vulgare	72	72	0	0	1.000000
 Oryza sativa	19	15	4	0	0.789474
 Triticum aestivum	10	4	6	0	0.400000
 Malus domestica	4	2	2	0	0.500000

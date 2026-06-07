@@ -21,17 +21,17 @@
 
 ## 审计结论
 
-本地作物基因组库当前包含 1906 个 assembly 目录，其中 246 个已有 genome 和至少一种注释文件，1660 个只有 genome、缺少 GFF3/GTF 注释。注释缺口不是下载中断造成的空目录问题，而主要是 GenBank GCA 条目在 NCBI 端缺少 GFF3/GTF 注释。
+本地作物基因组库当前包含 1906 个 assembly 目录，其中 254 个已有 genome 和至少一种注释文件，1652 个只有 genome、缺少 GFF3/GTF 注释。注释缺口不是下载中断造成的空目录问题，而主要是 GenBank GCA 条目在 NCBI 端缺少 GFF3/GTF 注释。
 
-外部注释补全路线目前呈现明显分层：Ensembl Plants 是当前最高收益路线，已验证通过 86 个候选、失败 6 个；RefSeq paired assembly 路线小样本 3/3 通过；LegumeInfo 2 个候选中 1 个通过；Gramene 与 MaizeGDB 当前验证样本均未通过，不能作为直接归档路线。
+外部注释补全路线目前呈现明显分层：Ensembl Plants 是当前最高收益路线，已验证通过 94 个候选、失败 6 个；RefSeq paired assembly 路线小样本 3/3 通过；LegumeInfo 2 个候选中 1 个通过；Gramene 与 MaizeGDB 当前验证样本均未通过，不能作为直接归档路线。
 
 ## 当前数据状态
 
 | 指标 | 数值 | 证据来源 |
 |---|---:|---|
 | assembly 目录总数 | 1906 | `docs/current-download-status.md` |
-| genome+注释完整目录 | 246 | `docs/completed-genome-index.tsv` |
-| 只有 genome、缺少 GFF3/GTF | 1660 | `docs/incomplete-genome-index.tsv` |
+| genome+注释完整目录 | 254 | `docs/completed-genome-index.tsv` |
+| 只有 genome、缺少 GFF3/GTF | 1652 | `docs/incomplete-genome-index.tsv` |
 | 本地数据总量 | 903365117479 bytes / 841.32 GiB | `docs/current-download-status.md` |
 | 已生成英文和中文 README 的完整目录 | 233 | `docs/current-download-status.md` |
 | 同时具有 GFF3 和 GTF 的完整目录 | 232 | `docs/completed-genome-index.tsv` |
@@ -43,7 +43,7 @@
 
 | 物种 | 完整目录数 |
 |---|---:|
-| Hordeum vulgare | 71 |
+| Hordeum vulgare | 79 |
 | Malus domestica | 42 |
 | Oryza sativa | 23 |
 | Triticum aestivum | 17 |
@@ -81,7 +81,7 @@
 
 | 路线 | 验证通过 | 验证失败 | 当前解释 |
 |---|---:|---:|---|
-| Ensembl Plants | 86 | 6 | 最高收益路线；必须继续做 accession、assembly、品种和长度级验证 |
+| Ensembl Plants | 94 | 6 | 最高收益路线；必须继续做 accession、assembly、品种和长度级验证 |
 | RefSeq paired GCA->GCF | 3 | 0 | 小样本全通过；适合继续扩大 assembly_summary 配对扫描 |
 | LegumeInfo | 1 | 1 | 对豆科作物有价值，但不同 assembly/版本风险明显 |
 | Gramene | 0 | 7 | 小样本未通过；不应直接归档同物种参考注释 |
@@ -91,7 +91,7 @@
 
 ### 证据
 
-- Ensembl Plants 当前已经归档 86 个候选，其中 Hordeum vulgare 贡献 64 个。
+- Ensembl Plants 当前已经归档 94 个候选，其中 Hordeum vulgare 贡献 72 个。
 - Hordeum vulgare 最近多批 HOR/HID/FT 等候选的 GTF metadata accession/genome-version 与本地 assembly 一致，并通过 seqid/长度验证。
 - Gramene、MaizeGDB 的失败样本说明同物种注释不能直接混用。
 - NCBI Datasets 小样本测试不能补齐 GenBank GCA 的 GFF3/GTF 缺口。

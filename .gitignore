@@ -46,6 +46,8 @@ maizegdb_cache/
 maizegdb_validation/
 ncbi_summary_cache/
 refseq_paired_validation/
+validation_reports/
 
-# 坐标验证明细可能非常大；GitHub 只提交简短 Markdown 报告
+# 单条验证报告和坐标明细保留本地；GitHub 只提交关键进展、索引和汇总表
+docs/*validation.md
 docs/*seqid-validation.tsv

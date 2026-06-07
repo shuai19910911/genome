@@ -17,6 +17,7 @@ DOCS = ROOT / "docs"
 DEFAULT_CANDIDATES = DOCS / "2026-06-07-ensembl-plants-species-candidates.tsv"
 DEFAULT_INCOMPLETE = DOCS / "incomplete-genome-index.tsv"
 VALIDATION_DIR = ROOT / "ensembl_validation"
+REPORT_DIR = ROOT / "validation_reports"
 
 
 def read_tsv(path: Path) -> list[dict[str, str]]:
@@ -94,7 +95,7 @@ def single_file_annotation(row: dict[str, str]) -> bool:
 
 def report_prefix(accession: str, ensembl_dir: str, source_slug: str) -> Path:
     slug = safe_slug(ensembl_dir.replace("_", "-"))
-    return DOCS / f"2026-06-07-{accession}-{safe_slug(source_slug)}-{slug}"
+    return REPORT_DIR / f"2026-06-07-{accession}-{safe_slug(source_slug)}-{slug}"
 
 
 def main() -> int:
@@ -138,6 +139,7 @@ def main() -> int:
         gzip_ok(gtf)
 
         prefix = report_prefix(accession, candidate["ensembl_dir"], args.source_slug)
+        prefix.parent.mkdir(parents=True, exist_ok=True)
         run(
             [
                 "python3",
