@@ -23,23 +23,23 @@ def fasta_lengths(path: Path) -> tuple[dict[str, int], dict[str, str]]:
     aliases: dict[str, str] = {}
     current_id = ""
     current_len = 0
-    current_alias = ""
+    current_aliases: set[str] = set()
     with opener(path) as handle:
         for line in handle:
             if line.startswith(">"):
                 if current_id:
                     lengths[current_id] = current_len
-                    if current_alias:
-                        aliases[current_alias] = current_id
+                    for alias in current_aliases:
+                        aliases[alias] = current_id
                 current_id = line[1:].split()[0]
-                current_alias = normalize_chromosome_name(line[1:].strip())
+                current_aliases = candidate_aliases(line[1:].strip())
                 current_len = 0
             else:
                 current_len += len(line.strip())
         if current_id:
             lengths[current_id] = current_len
-            if current_alias:
-                aliases[current_alias] = current_id
+            for alias in current_aliases:
+                aliases[alias] = current_id
     return lengths, aliases
 
 
@@ -90,10 +90,43 @@ def normalize_chromosome_name(name: str) -> str:
     description_match = re.search(r"chromosome:\s*([0-9][A-Za-z]+)", name, flags=re.I)
     if description_match:
         return description_match.group(1)
+    chromosome_match = re.search(r"\bchromosome\s+([0-9]+[A-Za-z]*)\b", name, flags=re.I)
+    if chromosome_match:
+        return normalize_seq_label(chromosome_match.group(1))
+    contig_match = re.search(r"\bcontig:\s*([A-Za-z]*[0-9]+[A-Za-z]*)\b", name, flags=re.I)
+    if contig_match:
+        return normalize_seq_label(contig_match.group(1))
     match = re.search(r"\b([1-7][ABD])\b", name)
     if match:
         return match.group(1)
-    return name
+    return normalize_seq_label(name)
+
+
+def normalize_seq_label(value: str) -> str:
+    label = value.strip()
+    if label.lower().startswith("chr"):
+        label = label[3:]
+    if re.fullmatch(r"0+[0-9]+", label):
+        return str(int(label))
+    return label
+
+
+def candidate_aliases(name: str) -> set[str]:
+    aliases = {name, normalize_chromosome_name(name)}
+    for pattern in [
+        r"chromosome:\s*([0-9]+[A-Za-z]*)",
+        r"\bchromosome\s+([0-9]+[A-Za-z]*)\b",
+        r"\bcontig:\s*([A-Za-z]*[0-9]+[A-Za-z]*)\b",
+    ]:
+        for match in re.finditer(pattern, name, flags=re.I):
+            raw = match.group(1)
+            normalized = normalize_seq_label(raw)
+            aliases.add(raw)
+            aliases.add(normalized)
+            aliases.add(f"chr{normalized}")
+            if raw.lower().startswith("chr") and normalized.isdigit():
+                aliases.add(f"contig{int(normalized) + 1}")
+    return {alias for alias in aliases if alias}
 
 
 def main() -> int:
@@ -112,18 +145,31 @@ def main() -> int:
 
     normalized_genome: dict[str, list[tuple[str, int]]] = {}
     for seqid, length in genome_lengths.items():
-        normalized_genome.setdefault(normalize_chromosome_name(seqid), []).append((seqid, length))
+        for alias in candidate_aliases(seqid):
+            normalized_genome.setdefault(alias, []).append((seqid, length))
     for alias, seqid in genome_aliases.items():
         normalized_genome.setdefault(alias, []).append((seqid, genome_lengths[seqid]))
+
+    length_to_seqids: dict[int, list[str]] = {}
+    for seqid, length in genome_lengths.items():
+        length_to_seqids.setdefault(length, []).append(seqid)
 
     rows: list[dict[str, object]] = []
     exact_matches = 0
     normalized_matches = 0
+    unique_length_matches = 0
     length_mismatches = 0
     missing_regions = 0
     for seqid, ann_length in sorted(region_lengths.items()):
         local_exact = genome_lengths.get(seqid)
-        normalized_candidates = normalized_genome.get(seqid, [])
+        normalized_candidates: list[tuple[str, int]] = []
+        seen_candidates: set[tuple[str, int]] = set()
+        for alias in candidate_aliases(seqid):
+            for item in normalized_genome.get(alias, []):
+                if item not in seen_candidates:
+                    normalized_candidates.append(item)
+                    seen_candidates.add(item)
+        unique_length_ids = length_to_seqids.get(ann_length, [])
         if local_exact == ann_length:
             status = "exact_seqid_and_length"
             exact_matches += 1
@@ -133,6 +179,11 @@ def main() -> int:
             status = "normalized_seqid_and_length"
             normalized_matches += 1
             local_id, local_length = next((item for item in normalized_candidates if item[1] == ann_length))
+        elif len(unique_length_ids) == 1:
+            status = "unique_length_match"
+            unique_length_matches += 1
+            local_id = unique_length_ids[0]
+            local_length = ann_length
         elif local_exact is None and not normalized_candidates:
             status = "missing_in_genome"
             missing_regions += 1
@@ -158,7 +209,7 @@ def main() -> int:
         len(region_lengths) > 0
         and missing_regions == 0
         and length_mismatches == 0
-        and (exact_matches + normalized_matches) == len(region_lengths)
+        and (exact_matches + normalized_matches + unique_length_matches) == len(region_lengths)
     )
 
     args.output_prefix.parent.mkdir(parents=True, exist_ok=True)
@@ -186,13 +237,15 @@ def main() -> int:
         f"- GFF3 已抽样 feature seqid 覆盖 region 数: {covered_seqids}",
         f"- exact seqid+length 匹配数: {exact_matches}",
         f"- 归一化 seqid+length 匹配数: {normalized_matches}",
+        f"- 唯一长度匹配数: {unique_length_matches}",
         f"- 长度不一致数: {length_mismatches}",
         f"- genome 缺失 region 数: {missing_regions}",
         f"- 验证结论: {'通过，可作为同坐标注释候选' if pass_validation else '未通过，不能直接合并'}",
         "",
         "## 说明",
         "",
-        "- 归一化匹配只处理小麦染色体名这类情况，例如 FASTA 头中带有额外描述但可提取 `1A`、`1B` 等染色体名。",
+        "- 归一化匹配处理 FASTA 头中的常见染色体/contig 别名，例如 `chromosome 1`、`chromosome: 1A`、`contig: chr01`。",
+        "- 唯一长度匹配表示该注释 region 的长度在本地 genome 中只出现一次；这只能作为 accession/genome-version 明确对应时的补充证据。",
         "- 如果 GTF 记录的 accession 版本和本地 genome accession 版本不同，即使长度匹配，也需要在 README 中明确来源差异。",
         f"- 明细表: `{tsv_path.relative_to(ROOT) if tsv_path.is_relative_to(ROOT) else tsv_path}`",
         "",

@@ -101,7 +101,7 @@ def build_readme_zh(
 - 验证结论: {validation_summary}
 - 验证报告: `{rel(validation_report)}`
 
-注意：这里的注释文件来自 Ensembl Plants，而基因组文件来自 NCBI GenBank。GTF 元数据中的 accession 版本与本地 NCBI accession 版本不完全相同，所以不能只看名字判断是否可用。本次按染色体别名和长度做了校验，21 条主染色体全部匹配，因此作为同坐标注释候选归档。
+注意：这里的注释文件来自 Ensembl Plants，而基因组文件来自 NCBI GenBank。即使来源名称看起来一致，也不能只看名字判断是否可用；本次已经按染色体/contig 别名和长度做了校验，确认通过后才作为同坐标注释候选归档。若 Ensembl 元数据中的 accession 版本与本地 genome 版本不同，上面会单独列出。
 
 ## 校验和
 
@@ -172,7 +172,7 @@ This directory stores one crop genome assembly and validated matching annotation
 - Validation summary: {validation_summary}
 - Validation report: `{rel(validation_report)}`
 
-The annotation files come from Ensembl Plants, while the genome file comes from NCBI GenBank. The accession versions are not identical in the metadata, so this pair was validated by chromosome alias and sequence length before being archived. All 21 primary chromosomes matched.
+The annotation files come from Ensembl Plants, while the genome file comes from NCBI GenBank. The pair was validated by sequence aliases and sequence lengths before being archived. Any accession-version difference recorded in Ensembl metadata is listed above.
 
 ## Checksums
 

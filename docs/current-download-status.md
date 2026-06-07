@@ -1,27 +1,29 @@
 # 当前基因组下载进展
 
-- 更新时间: 2026-06-07 13:07:55
+- 更新时间: 2026-06-07 13:24:45
 - 完成记录数: 149
 - 失败记录数: 1755
 - 已生成 assembly 目录数: 1906
-- 已生成 README 的完成目录数: 152
-- 本地数据总量: 901924711614 bytes (839.98 GiB)
+- 已生成 README 的完成目录数: 157
+- 本地数据总量: 901987938645 bytes (840.04 GiB)
 - 下载管理进程数: 0
 - aria2 活动下载数: 0
 - 最近速度: 0.00 MiB/s
 
 ## 当前分类结果
 
-- 有 genome 和至少一种注释的目录: 157
-- 只有 genome、缺少 GFF3/GTF 注释的目录: 1749
+- 有 genome 和至少一种注释的目录: 162
+- 只有 genome、缺少 GFF3/GTF 注释的目录: 1744
 - 完整索引: `docs/completed-genome-index.tsv`
 - 未完整索引: `docs/incomplete-genome-index.tsv`
 
 ## 外部注释补充
 
-- 本次已将 Ensembl Plants 的 `triticum_aestivum_paragon` GFF3/GTF 归档到 `Triticum_aestivum_GCA_949126075.2`。
-- 该条目本地 genome 是 NCBI GenBank `GCA_949126075.2`，Ensembl GTF 元数据记录 `GCA_949126075.1` / `GCA949126075v1`；已按 21 条主染色体别名和长度验证通过。
-- 详细验证报告: `docs/2026-06-07-GCA_949126075.2-ensembl-paragon.validation.md`。
+- 已将 6 个 Ensembl Plants 候选 GFF3/GTF 归档到本地 assembly 目录，其中本轮新增 5 个。
+- 已归档: `Triticum_aestivum_GCA_949126075.2`、`Cucumis_melo_GCA_902497455.1`、`Citrullus_lanatus_GCA_000238415.2`、`Solanum_tuberosum_GCA_014189475.1`、`Oryza_sativa_GCA_009831255.1`、`Oryza_sativa_GCA_009830595.1`。
+- 本轮新增 5 个候选的 Ensembl GTF metadata accession/genome-version 与本地 assembly 一致，并已按染色体/contig 别名和长度验证通过。
+- 小麦 `Triticum_aestivum_GCA_949126075.2` 的 Ensembl GTF 元数据记录 `GCA_949126075.1` / `GCA949126075v1`，与本地 `GCA_949126075.2` 版本不完全相同；已按 21 条主染色体别名和长度验证通过。
+- 详细验证报告在 `docs/2026-06-07-GCA_*-ensembl-*.validation.md`。
 - Phytozome 仍按原决定暂不下载，只记录后续可用性。
 
 ## 前期测试结论
