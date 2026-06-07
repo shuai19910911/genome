@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download, validate, and archive Ensembl Plants assembly-name candidates."""
+"""Download, validate, and archive external assembly-name annotation candidates."""
 
 from __future__ import annotations
 
@@ -92,9 +92,9 @@ def single_file_annotation(row: dict[str, str]) -> bool:
     return gff3.endswith(".gff3.gz") and gtf.endswith(".gtf.gz") and not any(marker in gff3 for marker in split_markers)
 
 
-def report_prefix(accession: str, ensembl_dir: str) -> Path:
+def report_prefix(accession: str, ensembl_dir: str, source_slug: str) -> Path:
     slug = safe_slug(ensembl_dir.replace("_", "-"))
-    return DOCS / f"2026-06-07-{accession}-ensembl-{slug}"
+    return DOCS / f"2026-06-07-{accession}-{safe_slug(source_slug)}-{slug}"
 
 
 def main() -> int:
@@ -103,6 +103,8 @@ def main() -> int:
     parser.add_argument("--incomplete", type=Path, default=DEFAULT_INCOMPLETE)
     parser.add_argument("--max-count", type=int, default=8)
     parser.add_argument("--species", action="append", default=[])
+    parser.add_argument("--source-name", default="Ensembl Plants FTP")
+    parser.add_argument("--source-slug", default="ensembl")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
 
@@ -118,7 +120,7 @@ def main() -> int:
             continue
         for accession in filter(None, row["assembly_name_matches"].split(";")):
             local = incomplete.get(accession)
-            if local and not Path(str(report_prefix(accession, row["ensembl_dir"])) + ".validation.md").exists():
+            if local and not Path(str(report_prefix(accession, row["ensembl_dir"], args.source_slug)) + ".validation.md").exists():
                 jobs.append((local, row, accession))
 
     jobs = jobs[: args.max_count]
@@ -135,7 +137,7 @@ def main() -> int:
         gzip_ok(gff3)
         gzip_ok(gtf)
 
-        prefix = report_prefix(accession, candidate["ensembl_dir"])
+        prefix = report_prefix(accession, candidate["ensembl_dir"], args.source_slug)
         run(
             [
                 "python3",
@@ -176,7 +178,7 @@ def main() -> int:
                 "--validation-report",
                 str(report.relative_to(ROOT)),
                 "--source-name",
-                "Ensembl Plants FTP",
+                args.source_name,
                 "--source-dir",
                 source_dir,
                 "--gff3-url",

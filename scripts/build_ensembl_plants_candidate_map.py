@@ -17,8 +17,6 @@ from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "https://ftp.ebi.ac.uk/ensemblgenomes/pub/plants/current/"
-GFF3_BASE = urljoin(BASE, "gff3/")
-GTF_BASE = urljoin(BASE, "gtf/")
 DEFAULT_INPUT = ROOT / "docs" / "incomplete-genome-index.tsv"
 DEFAULT_CACHE = ROOT / "ensembl_plants_cache"
 DEFAULT_EXACT = ROOT / "docs" / "2026-06-07-ensembl-plants-exact-matches.tsv"
@@ -52,6 +50,14 @@ def write_tsv(path: Path, fieldnames: list[str], rows: list[dict[str, object]]) 
         writer.writeheader()
         for row in rows:
             writer.writerow({field: row.get(field, "") for field in fieldnames})
+
+
+def display_path(path: Path) -> str:
+    path = path.resolve()
+    try:
+        return str(path.relative_to(ROOT))
+    except ValueError:
+        return str(path)
 
 
 def slug_species(species: str) -> str:
@@ -142,10 +148,15 @@ def main() -> int:
     parser.add_argument("--output-exact", type=Path, default=DEFAULT_EXACT)
     parser.add_argument("--output-species", type=Path, default=DEFAULT_SPECIES)
     parser.add_argument("--output-md", type=Path, default=DEFAULT_MD)
+    parser.add_argument("--base-url", default=BASE)
+    parser.add_argument("--source-name", default="Ensembl Plants")
     parser.add_argument("--timeout", type=int, default=45)
     parser.add_argument("--top-species", type=int, default=12)
     parser.add_argument("--max-dirs-per-species", type=int, default=25)
     args = parser.parse_args()
+    base_url = args.base_url.rstrip("/") + "/"
+    gff3_base = urljoin(base_url, "gff3/")
+    gtf_base = urljoin(base_url, "gtf/")
 
     incomplete = read_tsv(args.input)
     species_counts = Counter(row["species"] for row in incomplete)
@@ -157,8 +168,8 @@ def main() -> int:
         rows_by_species[slug_species(row["species"])].append(row)
         rows_by_accession[row["assembly_accession"]] = row
 
-    gff_root_links, gff_root_status = fetch_links(GFF3_BASE, args.cache_dir, args.timeout)
-    gtf_root_links, gtf_root_status = fetch_links(GTF_BASE, args.cache_dir, args.timeout)
+    gff_root_links, gff_root_status = fetch_links(gff3_base, args.cache_dir, args.timeout)
+    gtf_root_links, gtf_root_status = fetch_links(gtf_base, args.cache_dir, args.timeout)
     gff_dirs = directory_links(gff_root_links)
     gtf_dirs = directory_links(gtf_root_links)
     all_candidate_dirs = sorted(set(gff_dirs) | set(gtf_dirs))
@@ -184,8 +195,8 @@ def main() -> int:
         species = local_rows[0]["species"] if local_rows else slug.replace("_", " ")
 
         for directory in directories:
-            gff_url = urljoin(GFF3_BASE, directory + "/")
-            gtf_url = urljoin(GTF_BASE, directory + "/")
+            gff_url = urljoin(gff3_base, directory + "/")
+            gtf_url = urljoin(gtf_base, directory + "/")
             gff_links, gff_status = fetch_links(gff_url, args.cache_dir, args.timeout) if directory in gff_dirs else ([], "missing_dir")
             gtf_links, gtf_status = fetch_links(gtf_url, args.cache_dir, args.timeout) if directory in gtf_dirs else ([], "missing_dir")
             gff_files = file_links(gff_links)
@@ -298,17 +309,17 @@ def main() -> int:
     exact_candidate_rows = [row for row in species_rows if row["match_type"] == "exact_accession"]
 
     lines = [
-        "# Ensembl Plants 注释候选匹配报告",
+        f"# {args.source_name} 注释候选匹配报告",
         "",
         f"- 检查时间: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
-        f"- Ensembl Plants FTP 根目录: `{BASE}`",
+        f"- {args.source_name} FTP 根目录: `{base_url}`",
         f"- GFF3 根目录状态: {gff_root_status}",
         f"- GTF 根目录状态: {gtf_root_status}",
         f"- 本地 genome-only 条目数: {len(incomplete)}",
         f"- 本地涉及物种数: {len(species_counts)}",
         f"- 本次扫描物种数: {len(selected_species)}",
         f"- 每个物种最多扫描目录数: {args.max_dirs_per_species}",
-        f"- Ensembl Plants 中找到同物种目录的物种数: {len(candidate_species)}",
+        f"- {args.source_name} 中找到同物种目录的物种数: {len(candidate_species)}",
         f"- 找到精确 accession 匹配的本地条目数: {len(exact_rows)}",
         f"- 找到精确 accession 匹配的物种数: {len(exact_species)}",
         "",
@@ -324,7 +335,7 @@ def main() -> int:
     if exact_rows:
         lines.append("- 有 accession 级别匹配，可以优先对这些条目做小样本下载和坐标验证。")
     else:
-        lines.append("- 这轮没有发现 accession 级别精确匹配；Ensembl Plants 主要只能作为同物种参考注释来源。")
+        lines.append(f"- 这轮没有发现 accession 级别精确匹配；{args.source_name} 主要只能作为同物种参考注释来源。")
     lines.extend(
         [
             "- 同物种候选不能直接标记为完成，必须核对 assembly、cultivar、染色体命名和 FASTA 序列长度。",
@@ -332,8 +343,8 @@ def main() -> int:
             "",
             "## 输出文件",
             "",
-            f"- 精确匹配表: `{args.output_exact.relative_to(ROOT)}`",
-            f"- 物种候选表: `{args.output_species.relative_to(ROOT)}`",
+            f"- 精确匹配表: `{display_path(args.output_exact)}`",
+            f"- 物种候选表: `{display_path(args.output_species)}`",
             "",
             "## 精确匹配样例",
             "",
@@ -359,7 +370,7 @@ def main() -> int:
 
     print(f"species candidates: {len(species_rows)}")
     print(f"exact matches: {len(exact_rows)}")
-    print(f"wrote {args.output_md.relative_to(ROOT)}")
+    print(f"wrote {display_path(args.output_md)}")
     return 0
 
 
