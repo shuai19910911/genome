@@ -131,7 +131,7 @@ def main() -> int:
         item("LegumeInfo 大豆 `Glycine_max_GCA_002905335.2` / Lee 候选只有 GFF3、没有 GTF；已用 30 个 feature seqid 最大 end 坐标不越界规则验证通过并归档。"),
         item("LegumeInfo 花生 `Arachis_hypogaea_GCA_028451205.1` / BaileyII 候选验证失败，已记录报告但没有归档。"),
         item("MaizeGDB 已扫描官方下载目录和 `All_gene_model_GFF/` 汇总目录，在 185 个未完整玉米条目中找到 39 个 assembly 名称候选。"),
-        item("MaizeGDB 玉米 W22、EP1、F7 三个小样本均未通过完整坐标验证；W22 主染色体可对上但 scaffold 长度不一致，EP1/F7 有大量 scaffold seqid 在本地 genome 中缺失，因此没有归档。"),
+        item("MaizeGDB 当前验证 18 个玉米候选，其中 PE0075、DK105、Dan340 三个通过并归档；W22、EP1、F7 以及连续 12 个 NAM 系列候选验证失败，后续暂停自动扩大 MaizeGDB，除非先分组确认 assembly/version 证据。"),
         item("NCBI GenBank assembly_summary 的 `gbrs_paired_asm` 字段在 1703 个未完整条目中找到 9 个 GCA->GCF 配对，其中 3 个 RefSeq GCF 端有 GFF3/GTF。"),
         item("RefSeq paired 路线已验证并归档 `Malus_domestica_GCA_042453785.1`、`Oryza_sativa_GCA_034140825.1`、`Solanum_lycopersicum_GCA_036512215.2` 三个候选；虽然 NCBI 记录 `paired_asm_comp=different`，但三者均按 seqid/长度验证通过。"),
         item("单条验证报告和中间候选/索引/统计表保留在本地 `validation_reports/` 与 `local_reports/`，不再上传 GitHub；GitHub 只保留关键进展文档。"),

@@ -21,17 +21,17 @@
 
 ## 审计结论
 
-本地作物基因组库当前包含 1906 个 assembly 目录，其中 259 个已有 genome 和至少一种注释文件，1647 个只有 genome、缺少 GFF3/GTF 注释。注释缺口不是下载中断造成的空目录问题，而主要是 GenBank GCA 条目在 NCBI 端缺少 GFF3/GTF 注释。
+本地作物基因组库当前包含 1906 个 assembly 目录，其中 262 个已有 genome 和至少一种注释文件，1644 个只有 genome、缺少 GFF3/GTF 注释。注释缺口不是下载中断造成的空目录问题，而主要是 GenBank GCA 条目在 NCBI 端缺少 GFF3/GTF 注释。
 
-外部注释补全路线目前呈现明显分层：Ensembl Plants 是当前最高收益路线，已验证通过 99 个候选、失败 7 个；RefSeq paired assembly 路线小样本 3/3 通过；LegumeInfo 2 个候选中 1 个通过；Gramene 与 MaizeGDB 当前验证样本均未通过，不能作为直接归档路线。
+外部注释补全路线目前呈现明显分层：Ensembl Plants 是当前最高收益路线，已验证通过 99 个候选、失败 7 个；RefSeq paired assembly 路线小样本 3/3 通过；LegumeInfo 2 个候选中 1 个通过；MaizeGDB 18 个候选中 3 个通过、15 个失败；Gramene 当前验证样本均未通过，不能作为直接归档路线。
 
 ## 当前数据状态
 
 | 指标 | 数值 | 证据来源 |
 |---|---:|---|
 | assembly 目录总数 | 1906 | `docs/current-download-status.md` |
-| genome+注释完整目录 | 259 | `local_reports/completed-genome-index.tsv` |
-| 只有 genome、缺少 GFF3/GTF | 1647 | `local_reports/incomplete-genome-index.tsv` |
+| genome+注释完整目录 | 262 | `local_reports/completed-genome-index.tsv` |
+| 只有 genome、缺少 GFF3/GTF | 1644 | `local_reports/incomplete-genome-index.tsv` |
 | 本地数据总量 | 903365117479 bytes / 841.32 GiB | `docs/current-download-status.md` |
 | 已生成英文和中文 README 的完整目录 | 233 | `docs/current-download-status.md` |
 | 同时具有 GFF3 和 GTF 的完整目录 | 232 | `local_reports/completed-genome-index.tsv` |
@@ -85,7 +85,7 @@
 | RefSeq paired GCA->GCF | 3 | 0 | 小样本全通过；适合继续扩大 assembly_summary 配对扫描 |
 | LegumeInfo | 1 | 1 | 对豆科作物有价值，但不同 assembly/版本风险明显 |
 | Gramene | 0 | 7 | 小样本未通过；不应直接归档同物种参考注释 |
-| MaizeGDB | 0 | 3 | 玉米候选主染色体可部分匹配，但 scaffold 差异导致当前不能归档 |
+| MaizeGDB | 3 | 15 | PE0075、DK105、Dan340 通过；NAM 系列连续失败，后续需分组确认 assembly/version 证据后再扩大 |
 
 ## 证据、推断与建议
 
@@ -93,7 +93,7 @@
 
 - Ensembl Plants 当前已经归档 99 个候选，其中 Hordeum vulgare 贡献 76 个；Ensembl assembly-name 候选目前已清空。
 - Hordeum vulgare 最近多批 HOR/HID/FT 等候选的 GTF metadata accession/genome-version 与本地 assembly 一致，并通过 seqid/长度验证。
-- Gramene、MaizeGDB 的失败样本说明同物种注释不能直接混用。
+- Gramene 和 MaizeGDB 的失败样本说明同物种注释不能直接混用；MaizeGDB 中 PE0075、DK105、Dan340 的成功样本说明同源 assembly-name 候选仍可作为小批验证路线。
 - NCBI Datasets 小样本测试不能补齐 GenBank GCA 的 GFF3/GTF 缺口。
 
 ### 推断
